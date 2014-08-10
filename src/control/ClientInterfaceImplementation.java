@@ -1,31 +1,41 @@
 package control;
 
+import gameManagement.GameManager;
+import gameManagement.interfaceImplementations.PlayerObject;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
+import sharedObjects.gameObjects.interfaces.FiredObject;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 
 public class ClientInterfaceImplementation implements ClientInterface, Serializable{
 	
-	public ClientInterfaceImplementation () throws RemoteException
+	private static final long serialVersionUID = 8776665828836217049L;
+	private PlayerObject player;
+	
+	/**
+	 * Constructor
+	 * @param player
+	 * @throws RemoteException
+	 */
+	public ClientInterfaceImplementation (PlayerObject player) throws RemoteException
 	{
 		UnicastRemoteObject.exportObject(this, 0);
+		this.player = player;
 	}
 	
-	@Override
-	public void playerAvailable(Player opponent) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	/**
+	 * Function which is called when the game Object is transmitted by the server
+	 * @param match
+	 * @throws RemoteException
+	 */
 	@Override
 	public void gameObject(Match match) throws RemoteException {
-		float a = 30;
-		float b = 40;
-		match.Fire(a, b);
 		
 	}
 
@@ -36,9 +46,17 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 	}
 
 	@Override
-	public Player getPlayer() throws RemoteException {
+	public void opponentFired(FiredObject data) throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+	
+	////////////////////
+	//Getter + Setter//
+	//////////////////
+	@Override
+	public Player getPlayer() throws RemoteException {
+		return this.player;
 	}
 
 }

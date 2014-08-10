@@ -7,6 +7,7 @@ import java.rmi.registry.Registry;
 
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 import sharedObjects.gameObjects.interfaces.Match;
+import ui.MainWindow;
 
 public class StartClient {
 
@@ -14,13 +15,13 @@ public class StartClient {
 	 * @param args
 	 * @throws RemoteException 
 	 * @throws NotBoundException 
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry();
-	    ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
-	    ClientInterfaceImplementation c = new ClientInterfaceImplementation();
-	    server.registerClient(c);
-
+	public static void main(String[] args) throws RemoteException, NotBoundException, InterruptedException {
+			    
+	    //Create the UI
+		MainWindow frame = new MainWindow();
+		frame.setVisible(true);
 	}
 
 }
