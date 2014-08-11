@@ -11,6 +11,7 @@ import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.gameObjects.interfaces.FiredObject;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
+import ui.LocalGameMap;
 
 public class ClientInterfaceImplementation implements ClientInterface, Serializable{
 	
@@ -36,7 +37,11 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 	 */
 	@Override
 	public void gameObject(Match match) throws RemoteException {
-		
+		GameManager manager = GameManager.getInstance();
+		LocalGameMap localMap = new LocalGameMap(); //Add all needed values here
+		manager.setMap(localMap);
+		manager.setMatch(match);
+		manager.environmentIsReady();
 	}
 
 	@Override

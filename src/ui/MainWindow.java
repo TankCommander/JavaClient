@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.DropMode;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
@@ -185,6 +184,27 @@ public class MainWindow extends JFrame {
 	
 	
 	/**
+	 * Function to set the player names
+	 * @param player1
+	 * @param player2
+	 */
+	public void setPlayerNames (String player1, String player2)
+	{
+		lblPlayer.setText(player1);
+		lblPlayer_1.setText(player2);
+	}
+
+	/**
+	 * Getter for the Draw Panel
+	 * @return
+	 */
+	public DrawPanel getDrawPanel() 
+	{
+		return panel;
+	}
+	
+	
+	/**
 	 * Called when the Fire Button was clicked
 	 */
 	private class BtnFireActionListener implements ActionListener {
@@ -201,9 +221,12 @@ public class MainWindow extends JFrame {
 			//Start a new Game
 			GameManager manager = GameManager.getInstance();
 			try {
-				manager.startGame(textField.getText(), MainWindow.this);
-				panel.setPaintState(DrawPanel.PaintState.WAITFORPLAYER);
-				panel.repaint();
+				boolean wait = manager.startGame(textField.getText(), MainWindow.this);
+				if (!wait)
+				{
+					panel.setPaintState(DrawPanel.PaintState.WAITFORPLAYER);
+					panel.repaint();
+				}
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			} catch (NotBoundException e1) {

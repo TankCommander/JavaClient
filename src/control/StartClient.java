@@ -2,11 +2,6 @@ package control;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
-import sharedObjects.gameObjects.interfaces.Match;
 import ui.MainWindow;
 
 public class StartClient {

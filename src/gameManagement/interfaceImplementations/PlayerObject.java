@@ -2,6 +2,7 @@ package gameManagement.interfaceImplementations;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import sharedObjects.gameObjects.interfaces.Player;
 
@@ -11,8 +12,10 @@ public class PlayerObject implements Player, Serializable {
 	private String name;
 	private double damage;
 	
-	public PlayerObject (String playerName)
+	public PlayerObject (String playerName) throws RemoteException
 	{
+		UnicastRemoteObject.exportObject(this, 0);
+		
 		this.name = playerName;
 		this.damage = 0;
 	}
