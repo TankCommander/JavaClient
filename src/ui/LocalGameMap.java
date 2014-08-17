@@ -8,6 +8,8 @@ import sharedObjects.gameObjects.interfaces.Point;
 
 public class LocalGameMap implements GameMap{
 
+	private static final long serialVersionUID = 5106517326997736002L;
+
 	@Override
 	public ArrayList<Point> getHorizonLine() throws RemoteException {
 		// TODO Auto-generated method stub
@@ -15,13 +17,13 @@ public class LocalGameMap implements GameMap{
 	}
 
 	@Override
-	public Point getPlayer1Postion() throws RemoteException {
+	public double getHorizonY_Value(int x) throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	public Point getPlayer2Postion() throws RemoteException {
+	public ArrayList<Point> getHorizonSkeleton() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
