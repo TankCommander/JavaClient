@@ -39,7 +39,7 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 	 * @throws RemoteException
 	 */
 	@Override
-	public void gameObject(Match match) throws RemoteException {
+	public void setGameObjects(Match match) throws RemoteException {
 		GameManager manager = GameManager.getInstance();
 		
 		//Clone the map
