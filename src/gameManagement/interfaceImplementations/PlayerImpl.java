@@ -7,7 +7,7 @@ import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 
-public class PlayerObject implements Player {
+public class PlayerImpl implements Player {
 	// ist das die shared PlayerImpl ?
 
 	private static final long serialVersionUID = -6042346884720363068L;
@@ -17,7 +17,7 @@ public class PlayerObject implements Player {
 	private Point position;
 	private Match match;
 	
-	public PlayerObject (String playerName) throws RemoteException
+	public PlayerImpl (String playerName) throws RemoteException
 	{
 		UnicastRemoteObject.exportObject(this, 0);
 		

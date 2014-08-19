@@ -1,6 +1,6 @@
 package gameManagement;
 
-import gameManagement.interfaceImplementations.PlayerObject;
+import gameManagement.interfaceImplementations.PlayerImpl;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -48,7 +48,7 @@ public class GameManager {
 		this.window = window;
 		
 		//Create a player object
-		PlayerObject player = new PlayerObject(playerName);
+		PlayerImpl player = new PlayerImpl(playerName);
 		
 		//Register at the Server
 		Registry registry = LocateRegistry.getRegistry();

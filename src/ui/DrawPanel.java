@@ -4,8 +4,11 @@ import gameManagement.GameManager;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.rmi.RemoteException;
 
 import javax.swing.JPanel;
+
+import sharedObjects.gameObjects.interfaces.GameMap;
 
 public class DrawPanel extends JPanel {
 	//TODO: Benno Hier kannst du dich austoben
@@ -26,7 +29,11 @@ public class DrawPanel extends JPanel {
 			this.paintWaitingMessage(g);
 			break;
 		case DRAWMAP:
-			this.drawMap(g);
+			try {
+				this.drawMap(g);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 			break;
 
 		default:
@@ -48,13 +55,15 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Function to draw the Map
 	 * @param g
+	 * @throws RemoteException 
 	 */
-	private void drawMap (Graphics g)
+	private void drawMap (Graphics g) throws RemoteException
 	{
 		GameManager manager = GameManager.getInstance();
 		
-		manager.getMap(); //TODO: Hier kannst du die Map zeichnen
-		g.drawString("DrawMap", 300, 200);
+		GameMap map = manager.getMap();
+		g.drawString("DrawMap:" + map.getHorizonLine().toString(), 300, 200);
+		
 	}
 	
 	public void setPaintState (PaintState state)
