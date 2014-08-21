@@ -1,5 +1,8 @@
 package ui;
 
+import gameManagement.Consts;
+
+import java.awt.Polygon;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -12,9 +15,22 @@ public class LocalGameMap implements GameMap{
 	private ArrayList<Point> horizonSkeleton;
 	private ArrayList<Point> horizonLine;
 	
+	private int[] ax;
+	private int[] ay;
+	private Polygon polygon;
+	
 	public LocalGameMap(ArrayList<Point> horizonSkeleton, ArrayList<Point> horizonLine) throws RemoteException {
 		this.horizonSkeleton = horizonSkeleton;
 		this.horizonLine = horizonLine;
+		ax = new int[horizonSkeleton.size()];
+		ay = new int[horizonSkeleton.size()];
+		int i = 0;
+		for(Point p : horizonSkeleton){
+			ax[i] = (int)p.getX();
+			ay[i] = Consts.MAX_HORIZON_HEIGHT-(int)p.getY();
+			i++;
+		}		
+		polygon = new Polygon(ax,ay,ax.length);
 	}
        		
 	
@@ -32,5 +48,10 @@ public class LocalGameMap implements GameMap{
 	public double getHorizonY_Value(int x) throws RemoteException {
 		return horizonLine.get(x).getY();
 	}
+	
+	public Polygon getPolygon(){
+		return polygon;		
+	}
 
+	
 }
