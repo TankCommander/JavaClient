@@ -10,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
-import sharedObjects.gameObjects.interfaces.FiredObject;
+import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
@@ -64,11 +64,17 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	
+	/**
+	 * Function which will inform the client about a new flight path of the fired object
+	 * @param flightPath
+	 * @throws RemoteException
+	 */
 	@Override
-	public void opponentFired(FiredObject data) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void setNewFlightPath(FlightPath flightPath) throws RemoteException {
+		GameManager manager = GameManager.getInstance();
+		manager.receivedNewFlightPath(flightPath);
 	}
 	
 	////////////////////

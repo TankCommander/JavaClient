@@ -9,7 +9,9 @@ import java.rmi.registry.Registry;
 
 import control.ClientInterfaceImplementation;
 
+import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
+import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
 import ui.LocalGameMap;
@@ -27,6 +29,7 @@ public class GameManager {
 	private MainWindow window;
 	private LocalGameMap map;
 	private Match match;
+	private ClientInterface cInterface;
 	
 	private GameManager () {}
 
@@ -54,6 +57,7 @@ public class GameManager {
 		Registry registry = LocateRegistry.getRegistry();
 	    ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
 	    ClientInterfaceImplementation c = new ClientInterfaceImplementation(player);
+	    player.setClientInterface(c);
 	    return server.registerClient(c);
 	}
 	
@@ -67,6 +71,15 @@ public class GameManager {
 		window.setPlayerNames(this.match.getPlayers().get(0).getName(), this.match.getPlayers().get(1).getName());
 		window.getDrawPanel().setPaintState(PaintState.DRAWMAP);
 		window.getDrawPanel().repaint();
+	}
+	
+	
+	/**
+	 * Function called, when the client received a new flight path
+	 */
+	public void receivedNewFlightPath (FlightPath path)
+	{
+		//TODO: Implement action
 	}
 
 	
@@ -88,5 +101,15 @@ public class GameManager {
 	public void setMatch(Match match) {
 		this.match = match;
 	}
+
+	public ClientInterface getcInterface() {
+		return cInterface;
+	}
+
+	public void setcInterface(ClientInterface cInterface) {
+		this.cInterface = cInterface;
+	}
+	
+	
 	
 }

@@ -3,12 +3,12 @@ package gameManagement.interfaceImplementations;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 
 public class PlayerImpl implements Player {
-	// ist das die shared PlayerImpl ?
 
 	private static final long serialVersionUID = -6042346884720363068L;
 	private String name;
@@ -16,6 +16,7 @@ public class PlayerImpl implements Player {
 	private double angle = 0;
 	private Point position;
 	private Match match;
+	private ClientInterface cInterface;
 	
 	public PlayerImpl (String playerName) throws RemoteException
 	{
@@ -70,6 +71,16 @@ public class PlayerImpl implements Player {
 	@Override
 	public double getAngele() throws RemoteException {
 		return this.angle;
+	}
+
+	@Override
+	public ClientInterface getClientInterface() throws RemoteException {
+		return this.cInterface;
+	}
+
+	@Override
+	public void setClientInterface(ClientInterface cInterface) {
+		this.cInterface = cInterface;
 	}
 
 }
