@@ -17,13 +17,29 @@ public class PlayerImpl implements Player {
 	private Point position;
 	private Match match;
 	private ClientInterface cInterface;
+	private String playerID;
 	
 	public PlayerImpl (String playerName) throws RemoteException
 	{
 		UnicastRemoteObject.exportObject(this, 0);
 		
 		this.name = playerName;
+		this.playerID = generatePlayerID();
 	}
+	
+
+	/**
+	 * Function which will create a Player ID
+	 * @return String
+	 */
+	private String generatePlayerID ()
+	{
+		String id = String.valueOf(System.currentTimeMillis());
+		id += String.valueOf(Math.random());
+		
+		return id;
+	}
+	
 	
 	@Override
 	public String getName() throws RemoteException {
@@ -79,8 +95,22 @@ public class PlayerImpl implements Player {
 	}
 
 	@Override
-	public void setClientInterface(ClientInterface cInterface) {
+	public void setClientInterface(ClientInterface cInterface) throws RemoteException{
 		this.cInterface = cInterface;
+	}
+
+	@Override
+	public String getID() throws RemoteException {
+		return this.playerID;
+	}
+
+
+	@Override
+	public boolean comparePlayers(Player comparePlayer) throws RemoteException {
+		if (comparePlayer.getID().equals(this.getID()))
+			return true;
+		else
+			return false;
 	}
 
 }

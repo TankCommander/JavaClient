@@ -193,6 +193,17 @@ public class MainWindow extends JFrame {
 		lblPlayer.setText(player1);
 		lblPlayer_1.setText(player2);
 	}
+	
+	
+	/**
+	 * Function which will enable oder disable the fire button
+	 * @param enabled
+	 */
+	public void setFireButtonState (boolean enabled)
+	{
+		this.btnFire.setEnabled(enabled);
+	}
+	
 
 	/**
 	 * Getter for the Draw Panel

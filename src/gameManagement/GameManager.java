@@ -14,6 +14,7 @@ import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
+import sharedObjects.gameObjects.interfaces.Player;
 import ui.LocalGameMap;
 import ui.MainWindow;
 import ui.DrawPanel.PaintState;
@@ -58,6 +59,7 @@ public class GameManager {
 	    ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
 	    ClientInterfaceImplementation c = new ClientInterfaceImplementation(player);
 	    player.setClientInterface(c);
+	    this.cInterface = c;
 	    return server.registerClient(c);
 	}
 	
@@ -70,6 +72,13 @@ public class GameManager {
 	{
 		window.setPlayerNames(this.match.getPlayers().get(0).getName(), this.match.getPlayers().get(1).getName());
 		window.getDrawPanel().setPaintState(PaintState.DRAWMAP);
+		
+		//Enable oder disable the fire button
+		if (this.match.getActivePlayer().comparePlayers(this.cInterface.getPlayer()))
+			window.setFireButtonState(true);
+		else
+			window.setFireButtonState(false);
+		
 		window.getDrawPanel().repaint();
 	}
 	
