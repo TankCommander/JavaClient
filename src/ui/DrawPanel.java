@@ -16,7 +16,7 @@ public class DrawPanel extends JPanel {
 	private static final long serialVersionUID = 5482090458424997569L;
 
 
-	public static enum PaintState {NONE, WAITFORPLAYER, DRAWMAP}
+	public static enum PaintState {NONE, WAITFORPLAYER, DRAWMAP, DRAWFLIGHTPATH}
 	private PaintState state = PaintState.NONE;
 	
 	@Override

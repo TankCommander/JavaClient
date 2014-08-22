@@ -14,7 +14,6 @@ import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
-import sharedObjects.gameObjects.interfaces.Player;
 import ui.LocalGameMap;
 import ui.MainWindow;
 import ui.DrawPanel.PaintState;
@@ -85,10 +84,19 @@ public class GameManager {
 	
 	/**
 	 * Function called, when the client received a new flight path
+	 * @throws RemoteException 
 	 */
-	public void receivedNewFlightPath (FlightPath path)
+	public void receivedNewFlightPath (FlightPath path) throws RemoteException
 	{
-		//TODO: Implement action
+		//Change the state of the fire button
+		if (this.match.getActivePlayer().comparePlayers(this.cInterface.getPlayer()))
+			window.setFireButtonState(true);
+		else
+			window.setFireButtonState(false);
+		
+		//Change the state in the drawPanel
+		window.getDrawPanel().setPaintState(PaintState.DRAWFLIGHTPATH);
+		
 	}
 
 	
