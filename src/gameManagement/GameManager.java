@@ -30,6 +30,7 @@ public class GameManager {
 	private LocalGameMap map;
 	private Match match;
 	private ClientInterface cInterface;
+	private FlightPath currentFlightPath;
 	
 	private GameManager () {}
 
@@ -77,8 +78,6 @@ public class GameManager {
 			window.setFireButtonState(true);
 		else
 			window.setFireButtonState(false);
-		
-		window.getDrawPanel().repaint();
 	}
 	
 	
@@ -88,18 +87,24 @@ public class GameManager {
 	 */
 	public void receivedNewFlightPath (FlightPath path) throws RemoteException
 	{
-		//Change the state of the fire button
-		if (this.match.getActivePlayer().comparePlayers(this.cInterface.getPlayer()))
-			window.setFireButtonState(true);
-		else
-			window.setFireButtonState(false);
+		this.currentFlightPath = path;
 		
 		//Change the state in the drawPanel
 		window.getDrawPanel().setPaintState(PaintState.DRAWFLIGHTPATH);
 		
+		//TODO: Wait until draw is completed
+		
+		//Change the values of the bars
+		window.setPlayerDamage(this.match.getPlayers().get(0).getDamage(), 
+				this.match.getPlayers().get(0).getDamage());
+		
+		//Change the state of the fire button
+		if (this.match.getActivePlayer().comparePlayers(this.cInterface.getPlayer()))
+			window.setFireButtonState(true);
+		else
+			window.setFireButtonState(false);		
 	}
 
-	
 	////////////////////
 	//Getter + Setter//
 	//////////////////
@@ -127,6 +132,13 @@ public class GameManager {
 		this.cInterface = cInterface;
 	}
 	
+	public FlightPath getCurrentFlightPath() {
+		return currentFlightPath;
+	}
+
+	public void setCurrentFlightPath(FlightPath currentFlightPath) {
+		this.currentFlightPath = currentFlightPath;
+	}
 	
 	
 }

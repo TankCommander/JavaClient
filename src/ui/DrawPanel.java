@@ -3,32 +3,17 @@ package ui;
 import gameManagement.Consts;
 import gameManagement.GameManager;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Paint;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.TexturePaint;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import sharedObjects.gameObjects.interfaces.GameMap;
-import sharedObjects.gameObjects.interfaces.Point;
 
 public class DrawPanel extends JPanel {
 	//TODO: Benno Hier kannst du dich austoben
@@ -56,20 +41,25 @@ public class DrawPanel extends JPanel {
 				try {
 					initStuff();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				this.paintWaitingMessage(g);
 				
-			break;
+				break;
 			case DRAWMAP:
 				try {
 					this.drawMap(g);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			break;
+				break;
+			case DRAWFLIGHTPATH:
+				try {
+					this.drawMap(g);
+					this.drawFlightPath(g);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 	
 			default:
 			break;
@@ -101,8 +91,18 @@ public class DrawPanel extends JPanel {
 		g.fillRect(0, 0, Consts.WORLD_WIDTH, Consts.MAX_HORIZON_HEIGHT);
 	    g.setPaint(paint);
 	    g.fillPolygon(map.getPolygon());
-		g.drawString("DrawMap", 300, 200);
 		
+	}
+	
+	/**
+	 * Function to draw the flight path
+	 * @param gra
+	 */
+	private void drawFlightPath (Graphics gra)
+	{
+		//TODO: Benno tob dich hier aus ;)
+		GameManager manager = GameManager.getInstance();
+		gra.drawString(manager.getCurrentFlightPath().toString(), 300, 200);
 	}
 	
 	private void initStuff() throws Exception{

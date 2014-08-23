@@ -204,6 +204,16 @@ public class MainWindow extends JFrame {
 		this.btnFire.setEnabled(enabled);
 	}
 	
+	/**
+	 * Function which will set the damage for the players in the UI
+	 * @param damagePlayer1
+	 * @param damagePlayer2
+	 */
+	public void setPlayerDamage (double damagePlayer1, double damagePlayer2)
+	{
+		this.progressBar.setValue((int) (damagePlayer1*100));
+		this.progressBar_1.setValue((int) (damagePlayer2*100));
+	}
 
 	/**
 	 * Getter for the Draw Panel
