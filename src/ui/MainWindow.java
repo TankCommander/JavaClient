@@ -230,7 +230,15 @@ public class MainWindow extends JFrame {
 	 */
 	private class BtnFireActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-
+			GameManager manger = GameManager.getInstance();
+			double angle = Double.valueOf(spinner.getValue().toString());
+			double power = Double.valueOf(spinner_1.getValue().toString());
+			
+			try {
+				manger.fire(angle, power);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

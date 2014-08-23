@@ -104,6 +104,18 @@ public class GameManager {
 		else
 			window.setFireButtonState(false);		
 	}
+	
+	/**
+	 * Function to send a fire command to the server
+	 * @param angle
+	 * @param power
+	 * @throws RemoteException 
+	 */
+	public void fire (double angle, double power) throws RemoteException
+	{
+		this.match.Fire(cInterface, angle, power);
+		window.setFireButtonState(false);
+	}
 
 	////////////////////
 	//Getter + Setter//
