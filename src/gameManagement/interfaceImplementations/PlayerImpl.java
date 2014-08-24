@@ -110,11 +110,8 @@ public class PlayerImpl implements Player {
 
 
 	@Override
-	public boolean comparePlayers(Player comparePlayer) throws RemoteException {
-		if (comparePlayer.getID().equals(this.getID()))
-			return true;
-		else
-			return false;
+	public boolean equalsPlayer(Player otherPlayer) throws RemoteException {
+		return (otherPlayer.getID().equals(this.getID()));
 	}
 
 }

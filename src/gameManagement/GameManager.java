@@ -74,7 +74,7 @@ public class GameManager {
 		window.getDrawPanel().setPaintState(PaintState.DRAWMAP);
 		
 		//Enable oder disable the fire button
-		if (this.match.getActivePlayer().comparePlayers(this.cInterface.getPlayer()))
+		if (this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()))
 			window.setFireButtonState(true);
 		else
 			window.setFireButtonState(false);
@@ -99,7 +99,7 @@ public class GameManager {
 				this.match.getPlayers().get(0).getDamage());
 		
 		//Change the state of the fire button
-		if (this.match.getActivePlayer().comparePlayers(this.cInterface.getPlayer()))
+		if (this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()))
 			window.setFireButtonState(true);
 		else
 			window.setFireButtonState(false);		
