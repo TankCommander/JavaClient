@@ -113,8 +113,11 @@ public class GameManager {
 	 */
 	public void fire (double angle, double power) throws RemoteException
 	{
-		this.match.Fire(cInterface, angle, power);
-		window.setFireButtonState(false);
+		if (this.match != null){
+			// nur wenn Gegner da ist, sonst sollte der Button deaktiviert sein
+			this.match.Fire(cInterface, angle, power);
+			window.setFireButtonState(false);
+		}
 	}
 
 	////////////////////

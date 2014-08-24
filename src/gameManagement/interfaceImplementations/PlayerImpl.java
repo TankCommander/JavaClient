@@ -60,12 +60,16 @@ public class PlayerImpl implements Player {
 	}
 
 	@Override
-	public void setMatch(Match match) {
+	public void setMatch(Match match) throws RemoteException {
 		this.match = match;		
+		if (match != null)
+			this.position = this.match.getPlayerPosition(this);
+		else
+			this.position = null;				
 	}
 
 	@Override
-	public Point getPosition() {
+	public Point getPosition() {		
 		return this.position;
 	}
 
