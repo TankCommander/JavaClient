@@ -1,6 +1,7 @@
 package ui;
 
 import gameManagement.Consts;
+import gameManagement.LocalPointImpl;
 
 import java.awt.Polygon;
 import java.rmi.RemoteException;
@@ -22,12 +23,21 @@ public class LocalGameMap implements GameMap{
 	public LocalGameMap(ArrayList<Point> horizonSkeleton, ArrayList<Point> horizonLine) throws RemoteException {
 		this.horizonSkeleton = horizonSkeleton;
 		this.horizonLine = horizonLine;
-		ax = new int[horizonSkeleton.size()];
-		ay = new int[horizonSkeleton.size()];
+		
+		this.horizonSkeleton.add(0,new LocalPointImpl(0,0));
+		this.horizonSkeleton.add(this.horizonSkeleton.size(),new LocalPointImpl(Consts.WORLD_WIDTH,0));
+		this.horizonLine.add(0,new LocalPointImpl(0,0));
+		this.horizonLine.add(this.horizonLine.size(),new LocalPointImpl(Consts.WORLD_WIDTH,0));
+		
+//		ax = new int[horizonSkeleton.size()];
+//		ay = new int[horizonSkeleton.size()];
+		ax = new int[horizonLine.size()];
+		ay = new int[horizonLine.size()];
 		int i = 0;
-		for(Point p : horizonSkeleton){
+		//for(Point p : this.horizonSkeleton){
+		for(Point p : this.horizonLine){
 			ax[i] = (int)p.getX();
-			ay[i] = Consts.MAX_HORIZON_HEIGHT-(int)p.getY();
+			ay[i] = Consts.WORLD_HEIGHT-(int)p.getY();
 			i++;
 		}		
 		polygon = new Polygon(ax,ay,ax.length);
