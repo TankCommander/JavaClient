@@ -1,5 +1,7 @@
 package gameManagement;
 
+import java.rmi.RemoteException;
+
 import sharedObjects.gameObjects.interfaces.Point;
 
 public class LocalPointImpl implements Point{
@@ -32,6 +34,16 @@ public class LocalPointImpl implements Point{
 	@Override
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	@Override
+	public int getXasInt() throws RemoteException {
+		return (int) Math.round(this.x);
+	}
+
+	@Override
+	public int getYasInt() throws RemoteException {
+		return (int) Math.round(this.y);
 	}
 
 }

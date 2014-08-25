@@ -100,32 +100,40 @@ public class DrawPanel extends JPanel {
 		LocalGameMap map = (LocalGameMap)manager.getMap();
 		g.setColor(new Color(0.0f, 0.0f, 1.0f, 0.5f));
 		g.fillRect(0, 0, Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);
-//	    g.setPaint(paint);
+	    g.setPaint(paint);
 	    g.fillPolygon(map.getPolygon());
 	    
-	    g.setColor(new Color(0.0f, 1.0f, 1.0f, 0.5f));
-	    drawHorizonLine(gra,map); 
+//	    g.setColor(new Color(0.0f, 1.0f, 1.0f, 0.5f));
+//	    drawHorizonLine(gra,map); 
 	    
 	    //Player
 	    int d = 2* Consts.PLAYER_RADIUS;
 	    g.setColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
 	    for(Player p : manager.getMatch().getPlayers()){
-	    	int x = (int)p.getPosition().getX() - Consts.PLAYER_RADIUS;
-	    	int y = Consts.WORLD_HEIGHT - (int)p.getPosition().getY() - Consts.PLAYER_RADIUS;
+	    	int x = p.getPosition().getXasInt() - Consts.PLAYER_RADIUS;
+	    	int y = Consts.WORLD_HEIGHT - p.getPosition().getYasInt() - Consts.PLAYER_RADIUS;
 	    	
 	    	g.drawRect(x, y, d, d);
-	    	g.drawLine(0, 0, (int)p.getPosition().getX(), Consts.WORLD_HEIGHT - (int)manager.getMap().getHorizonY_Value((int)p.getPosition().getX()));
-	    	g.drawLine(0, 0, x, y);
+//	    	g.drawLine(0, 0, (int)p.getPosition().getX(), Consts.WORLD_HEIGHT - (int)manager.getMap().getHorizonY_Value((int)p.getPosition().getX()));
+//	    	g.drawLine(0, 0, x, y);
 	    	
-	    	System.out.println("PlayerPos:" + p.getPosition().getX()+ "|" + p.getPosition().getY() + " HorizontPosY:" + manager.getMap().getHorizonY_Value((int)p.getPosition().getX())+ " Diff:" + (manager.getMap().getHorizonY_Value((int)p.getPosition().getX()) - p.getPosition().getY()));
+	    	System.out.println("PlayerPos:" + p.getPosition().getXasInt()+ "|" + p.getPosition().getYasInt());
+	    	System.out.println("HorizontPosY:" + manager.getMap().getHorizonY_Value(p.getPosition().getXasInt()) + " Diff:" + (manager.getMap().getHorizonY_Value(p.getPosition().getXasInt()) - p.getPosition().getYasInt()));
 	    }
 		
 	}
 	
 	private void drawHorizonLine(Graphics gra, LocalGameMap map) throws RemoteException{
-		Point pb = new LocalPointImpl(0, 0);
+		Point pb = null;
 		for(Point p : map.getHorizonLine()){
-			gra.drawLine((int)pb.getX(),Consts.WORLD_HEIGHT - (int)pb.getY(),(int)p.getX(),Consts.WORLD_HEIGHT - (int)p.getY());
+			if (pb != null){
+				gra.drawLine(
+					pb.getXasInt(),
+					Consts.WORLD_HEIGHT - pb.getYasInt(),
+					p.getXasInt(),
+					Consts.WORLD_HEIGHT - p.getYasInt()
+					);
+			};
 			pb = p;
 		}
 		

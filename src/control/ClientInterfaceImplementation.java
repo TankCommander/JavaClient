@@ -43,12 +43,12 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 		GameManager manager = GameManager.getInstance();
 		
 		//Clone the map
-		ArrayList<Point> horizonSkeleton = new ArrayList<Point>();
+		ArrayList<Point> horizonSkeleton = new ArrayList<Point>(match.getMap().getHorizonSkeleton().size());
 		for (Point point : match.getMap().getHorizonSkeleton()) {
 			horizonSkeleton.add(new LocalPointImpl(point.getX(), point.getY()));
 		}
 		
-		ArrayList<Point> horizonLine = new ArrayList<Point>();
+		ArrayList<Point> horizonLine = new ArrayList<Point>(match.getMap().getHorizonLine().size());
 		for (Point point : match.getMap().getHorizonLine()) {
 			horizonLine.add(new LocalPointImpl(point.getX(), point.getY()));
 		}

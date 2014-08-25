@@ -36,8 +36,8 @@ public class LocalGameMap implements GameMap{
 		int i = 0;
 		//for(Point p : this.horizonSkeleton){
 		for(Point p : this.horizonLine){
-			ax[i] = (int)p.getX();
-			ay[i] = Consts.WORLD_HEIGHT-(int)p.getY();
+			ax[i] = p.getXasInt();
+			ay[i] = Consts.WORLD_HEIGHT-p.getYasInt();
 			i++;
 		}		
 		polygon = new Polygon(ax,ay,ax.length);
