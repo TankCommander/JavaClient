@@ -14,12 +14,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import control.TimerFlugbahn;
+import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
+import sharedObjects.gameObjects.interfaces.TimePoint;
+import sun.java2d.loops.FillPath;
 
 public class DrawPanel extends JPanel {
 	//TODO: Benno Hier kannst du dich austoben
@@ -142,11 +147,17 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Function to draw the flight path
 	 * @param gra
+	 * @throws RemoteException 
 	 */
-	private void drawFlightPath (Graphics gra)
+	private void drawFlightPath (Graphics gra) throws RemoteException
 	{
 		//TODO: Benno tob dich hier aus ;)
 		GameManager manager = GameManager.getInstance();
+		FlightPath fp = manager.getCurrentFlightPath();
+		
+	    Timer timer = new Timer();
+	    timer.scheduleAtFixedRate( new TimerFlugbahn(fp.getTimePoints(),gra), 0, 10 );
+		
 		gra.drawString(manager.getCurrentFlightPath().toString(), 300, 200);
 	}
 	
@@ -164,6 +175,5 @@ public class DrawPanel extends JPanel {
 		this.state = state;
 		this.repaint();
 	}
-	
 
 }
