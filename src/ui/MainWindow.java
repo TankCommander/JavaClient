@@ -1,12 +1,16 @@
 package ui;
 
+import gameManagement.Calculation;
 import gameManagement.GameManager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JButton;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -14,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JProgressBar;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -231,7 +236,7 @@ public class MainWindow extends JFrame {
 	private class BtnFireActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			GameManager manger = GameManager.getInstance();
-			double angle = Double.valueOf(spinner.getValue().toString());
+			double angle = Calculation.DegreeToRadiant(Double.valueOf(spinner.getValue().toString()));
 			double power = Double.valueOf(spinner_1.getValue().toString());
 			
 			try {
