@@ -240,6 +240,7 @@ public class MainWindow extends JFrame {
 			double power = Double.valueOf(spinner_1.getValue().toString());
 			
 			try {
+				setFireButtonState(false);
 				manger.fire(angle, power);
 			} catch (RemoteException e) {
 				e.printStackTrace();
