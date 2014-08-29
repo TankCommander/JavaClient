@@ -1,6 +1,7 @@
 package gameManagement.interfaceImplementations;
 
 import java.rmi.RemoteException;
+import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
@@ -8,7 +9,7 @@ import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 
-public class PlayerImpl implements Player {
+public class PlayerImpl extends UnicastRemoteObject implements Player  {
 
 	private static final long serialVersionUID = -6042346884720363068L;
 	private String name;
@@ -21,7 +22,7 @@ public class PlayerImpl implements Player {
 	
 	public PlayerImpl (String playerName) throws RemoteException
 	{
-		UnicastRemoteObject.exportObject(this, 0);
+//		UnicastRemoteObject.exportObject(this, 0); macht UnicastRemoteObject
 		
 		this.name = playerName;
 		this.playerID = generatePlayerID();

@@ -74,10 +74,7 @@ public class GameManager {
 		window.getDrawPanel().setPaintState(PaintState.DRAWMAP);
 		
 		//Enable oder disable the fire button
-		if (this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()))
-			window.setFireButtonState(true);
-		else
-			window.setFireButtonState(false);
+		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));
 	}
 	
 	
@@ -99,10 +96,7 @@ public class GameManager {
 				this.match.getPlayers().get(0).getDamage());
 		
 		//Change the state of the fire button
-		if (this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()))
-			window.setFireButtonState(true);
-		else
-			window.setFireButtonState(false);		
+		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));
 	}
 	
 	/**
@@ -116,6 +110,8 @@ public class GameManager {
 		if (this.match != null){
 			// nur wenn Gegner da ist, sonst sollte der Button deaktiviert sein
 			this.match.Fire(cInterface, angle, power);
+			
+			//sofort deaktivieren
 			window.setFireButtonState(false);
 		}
 	}
