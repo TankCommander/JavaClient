@@ -2,18 +2,21 @@ package gameManagement;
 
 import gameManagement.interfaceImplementations.PlayerImpl;
 
+import java.awt.Graphics;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Timer;
 
 import control.ClientInterfaceImplementation;
-
+import control.TimerFlugbahn;
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
+import ui.DrawPanel;
 import ui.LocalGameMap;
 import ui.MainWindow;
 import ui.DrawPanel.PaintState;
@@ -78,6 +81,18 @@ public class GameManager {
 	}
 	
 	
+	private void drawFlightPath (DrawPanel drawPanel) throws RemoteException
+	{
+		//TODO: Benno tob dich hier aus ;)
+		GameManager manager = GameManager.getInstance();
+		FlightPath fp = manager.getCurrentFlightPath();		
+		
+		TimerFlugbahn tf = new TimerFlugbahn(fp.getTimePoints(),drawPanel);
+		tf.start();
+	    	    
+		//gra.drawString(manager.getCurrentFlightPath().toString(), 300, 200);
+	}
+	
 	/**
 	 * Function called, when the client received a new flight path
 	 * @throws RemoteException 
@@ -87,8 +102,7 @@ public class GameManager {
 		this.currentFlightPath = path;
 		
 		//Change the state in the drawPanel
-		window.getDrawPanel().setPaintState(PaintState.DRAWFLIGHTPATH);
-		
+		drawFlightPath(window.getDrawPanel());
 		//TODO: Wait until draw is completed
 		
 		//Change the values of the bars

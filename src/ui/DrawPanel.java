@@ -14,12 +14,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import control.TimerFlugbahn;
+import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
+import sharedObjects.gameObjects.interfaces.TimePoint;
+import sun.java2d.loops.FillPath;
 
 public class DrawPanel extends JPanel {
 	//TODO: Benno Hier kannst du dich austoben
@@ -35,6 +41,7 @@ public class DrawPanel extends JPanel {
     int textureWidth;
     File groundTexture;
     TexturePaint tp;
+    public static int counter;
     
     
     public DrawPanel(){
@@ -67,7 +74,11 @@ public class DrawPanel extends JPanel {
 			case DRAWFLIGHTPATH:
 				try {
 					this.drawMap(g);
-					this.drawFlightPath(g);
+					//this.drawFlightPath(g);
+					GameManager manager = GameManager.getInstance();
+					FlightPath fp = manager.getCurrentFlightPath();
+					ArrayList<TimePoint> tps = fp.getTimePoints();
+					g.drawOval(tps.get(counter).getXasInt(), Consts.WORLD_HEIGHT - tps.get(counter).getYasInt(), 5, 5);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -117,8 +128,8 @@ public class DrawPanel extends JPanel {
 //	    	g.drawLine(0, 0, (int)p.getPosition().getX(), Consts.WORLD_HEIGHT - (int)manager.getMap().getHorizonY_Value((int)p.getPosition().getX()));
 //	    	g.drawLine(0, 0, x, y);
 	    	
-	    	System.out.println("PlayerPos:" + p.getPosition().getXasInt()+ "|" + p.getPosition().getYasInt());
-	    	System.out.println("HorizontPosY:" + manager.getMap().getHorizonY_Value(p.getPosition().getXasInt()) + " Diff:" + (manager.getMap().getHorizonY_Value(p.getPosition().getXasInt()) - p.getPosition().getYasInt()));
+//	    	System.out.println("PlayerPos:" + p.getPosition().getXasInt()+ "|" + p.getPosition().getYasInt());
+//	    	System.out.println("HorizontPosY:" + manager.getMap().getHorizonY_Value(p.getPosition().getXasInt()) + " Diff:" + (manager.getMap().getHorizonY_Value(p.getPosition().getXasInt()) - p.getPosition().getYasInt()));
 	    }
 		
 	}
@@ -142,13 +153,8 @@ public class DrawPanel extends JPanel {
 	/**
 	 * Function to draw the flight path
 	 * @param gra
+	 * @throws RemoteException 
 	 */
-	private void drawFlightPath (Graphics gra)
-	{
-		//TODO: Benno tob dich hier aus ;)
-		GameManager manager = GameManager.getInstance();
-		gra.drawString(manager.getCurrentFlightPath().toString(), 300, 200);
-	}
 	
 	private void initStuff() throws Exception{
 
@@ -164,6 +170,5 @@ public class DrawPanel extends JPanel {
 		this.state = state;
 		this.repaint();
 	}
-	
 
 }
