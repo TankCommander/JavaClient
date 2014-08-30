@@ -5,23 +5,40 @@ import gameManagement.Consts;
 import java.awt.Graphics;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.TimerTask;
 
 import sharedObjects.gameObjects.interfaces.TimePoint;
+import ui.DrawPanel;
+import ui.DrawPanel.PaintState;
 
-public class TimerFlugbahn extends TimerTask{
+public class TimerFlugbahn extends Thread{
 	
-	public TimerFlugbahn(ArrayList<TimePoint> _tps, Graphics _g){
+	private DrawPanel drawPanel;
+	private ArrayList<TimePoint> tps;
+	
+	public TimerFlugbahn(ArrayList<TimePoint> _tps, DrawPanel _drawPanel){
 		tps = _tps;
-		g = _g;
-		counter = 0;
+		drawPanel = _drawPanel;
+		DrawPanel.counter = 0;
 	}
 	
 	@Override public void run(){
-		 counter++;
+		while(isInterrupted() == false)	{
+			if(DrawPanel.counter == tps.size() -1)
+				break;
+			drawPanel.setPaintState(PaintState.DRAWFLIGHTPATH);
+			drawPanel.repaint();
+			DrawPanel.counter++;
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	 }
 
-	 private ArrayList<TimePoint> tps;
-	 private Graphics g;
-	 private int counter;
+	 
+	 
 }
