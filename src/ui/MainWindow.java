@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JProgressBar;
 
+import sharedObjects.gameObjects.interfaces.Player;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -192,23 +194,16 @@ public class MainWindow extends JFrame {
 	 * Function to set the player names
 	 * @param player1
 	 * @param player2
+	 * @throws RemoteException 
 	 */
-	public void setPlayerNames (String player1, String player2, boolean playerIsFirstPlayer)
+	public void setPlayerNames (Player player1, Player player2) throws RemoteException
 	{
-		lblPlayer.setText(player1);
-		lblPlayer_1.setText(player2);
+		lblPlayer.setText(player1.getName());
+		lblPlayer_1.setText(player2.getName());
 		
-		if (playerIsFirstPlayer)
-		{
-			lblPlayer.setForeground(Color.GREEN);
-			lblPlayer_1.setForeground(Color.RED);
-		}
-		else
-		{
-			lblPlayer.setForeground(Color.RED);
-			lblPlayer_1.setForeground(Color.GREEN);
-		}
-		btnFire.setBackground(Color.GREEN);
+		lblPlayer.setForeground(player1.getColor());
+		lblPlayer_1.setForeground(player2.getColor());
+//		btnFire.setBackground(Color.GREEN);
 	}
 	
 	

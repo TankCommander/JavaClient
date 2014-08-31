@@ -1,12 +1,6 @@
 package control;
 
-import gameManagement.Consts;
-
-import java.awt.Graphics;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Queue;
-import java.util.TimerTask;
 
 import sharedObjects.gameObjects.interfaces.TimePoint;
 import ui.DrawPanel;
@@ -25,16 +19,19 @@ public class TimerFlugbahn extends Thread{
 	
 	@Override public void run(){
 		while(isInterrupted() == false)	{
-			if(DrawPanel.counter == tps.size() -1)
+			if(DrawPanel.counter < tps.size() ){
+				drawPanel.setPaintState(PaintState.DRAWFLIGHTPATH);
+	//			drawPanel.repaint(); // wird in setPaintState mit erledigt
+				DrawPanel.counter++;
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				drawPanel.setPaintState(PaintState.DRAWMAP);
 				break;
-			drawPanel.setPaintState(PaintState.DRAWFLIGHTPATH);
-			drawPanel.repaint();
-			DrawPanel.counter++;
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 	 }

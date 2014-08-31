@@ -2,15 +2,13 @@ package gameManagement;
 
 import gameManagement.interfaceImplementations.PlayerImpl;
 
-import java.awt.Graphics;
+import java.awt.Color;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Timer;
+import java.util.Random;
 
-import control.ClientInterfaceImplementation;
-import control.TimerFlugbahn;
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 import sharedObjects.gameObjects.interfaces.FlightPath;
@@ -18,9 +16,11 @@ import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import ui.DrawPanel;
+import ui.DrawPanel.PaintState;
 import ui.LocalGameMap;
 import ui.MainWindow;
-import ui.DrawPanel.PaintState;
+import control.ClientInterfaceImplementation;
+import control.TimerFlugbahn;
 
 /**
  * Class which manages the whole client game
@@ -35,7 +35,7 @@ public class GameManager {
 	private Match match;
 	private ClientInterface cInterface;
 	private FlightPath currentFlightPath;
-	
+	private Random random = new Random();
 	private GameManager () {}
 
 	public static synchronized GameManager getInstance () {
@@ -74,14 +74,24 @@ public class GameManager {
 	 */
 	public void environmentIsReady () throws RemoteException
 	{
-		boolean playerIsFirstPlayer;
+		int i = 0;
+		for (Player player : this.match.getPlayers()){
+			switch (i) {
+			case 0:
+				player.setColor(Color.GREEN);
+				break;
+			case 1:
+				player.setColor(Color.RED);
+				break;			
+			default:
+				// mehr als 2 Spieler ?
+				player.setColor(new Color(random.nextInt()));
+				break;
+			}
+			i++;
+		}
 		
-		if (this.match.getPlayers().get(0).equalsPlayer(this.cInterface.getPlayer()))
-			playerIsFirstPlayer = true;
-		else
-			playerIsFirstPlayer = false;
-		
-		window.setPlayerNames(this.match.getPlayers().get(0).getName(), this.match.getPlayers().get(1).getName(), playerIsFirstPlayer);
+		window.setPlayerNames(this.match.getPlayers().get(0), this.match.getPlayers().get(1));
 		window.getDrawPanel().setPaintState(PaintState.DRAWMAP);
 		
 		//Enable oder disable the fire button

@@ -78,7 +78,8 @@ public class DrawPanel extends JPanel {
 					GameManager manager = GameManager.getInstance();
 					FlightPath fp = manager.getCurrentFlightPath();
 					ArrayList<TimePoint> tps = fp.getTimePoints();
-					g.drawOval(tps.get(counter).getXasInt(), Consts.WORLD_HEIGHT - tps.get(counter).getYasInt(), 5, 5);
+					g.setColor(Color.DARK_GRAY);
+					g.fillOval(tps.get(counter).getXasInt(), Consts.WORLD_HEIGHT - tps.get(counter).getYasInt(), 5, 5);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -124,7 +125,8 @@ public class DrawPanel extends JPanel {
 	    	int x = p.getPosition().getXasInt() - Consts.PLAYER_RADIUS;
 	    	int y = Consts.WORLD_HEIGHT - p.getPosition().getYasInt() - Consts.PLAYER_RADIUS;
 	    	
-	    	g.drawRect(x, y, d, d);
+	    	g.setColor(p.getColor());
+	    	g.fillRect(x, y, d, d);
 //	    	g.drawLine(0, 0, (int)p.getPosition().getX(), Consts.WORLD_HEIGHT - (int)manager.getMap().getHorizonY_Value((int)p.getPosition().getX()));
 //	    	g.drawLine(0, 0, x, y);
 	    	

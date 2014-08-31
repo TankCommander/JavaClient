@@ -1,7 +1,7 @@
 package gameManagement.interfaceImplementations;
 
+import java.awt.Color;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
@@ -19,6 +19,7 @@ public class PlayerImpl extends UnicastRemoteObject implements Player  {
 	private Match match;
 	private ClientInterface cInterface;
 	private String playerID;
+	private Color color;
 	
 	public PlayerImpl (String playerName) throws RemoteException
 	{
@@ -113,6 +114,18 @@ public class PlayerImpl extends UnicastRemoteObject implements Player  {
 	@Override
 	public boolean equalsPlayer(Player otherPlayer) throws RemoteException {
 		return (otherPlayer.getID().equals(this.getID()));
+	}
+
+
+	@Override
+	public void setColor(Color color) throws RemoteException {
+		this.color = color;		
+	}
+
+
+	@Override
+	public Color getColor() throws RemoteException {
+		return this.color;
 	}
 
 }
