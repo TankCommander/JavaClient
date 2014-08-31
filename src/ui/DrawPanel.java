@@ -5,8 +5,13 @@ import gameManagement.GameManager;
 import gameManagement.gameObjects.implementations.PointImpl;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.Paint;
 import java.awt.TexturePaint;
 import java.awt.geom.Rectangle2D;
@@ -15,8 +20,14 @@ import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import sharedObjects.gameObjects.interfaces.FlightPath;
@@ -39,6 +50,8 @@ public class DrawPanel extends JPanel {
     File groundTexture;
     TexturePaint tp;
     private int counter;
+
+	private JLabel labelExplosion;
     
     
     public DrawPanel(){
@@ -135,7 +148,9 @@ public class DrawPanel extends JPanel {
 	    	g.fillRoundRect(x, y, d, Consts.PLAYER_RADIUS, 3, 3);
 	    		    	
 	    	// Kanonenrohr
-	    	drawBarrel(gra, p);	    	
+	    	drawBarrel(gra, p);	 
+	    	
+	    	drawExplosion(gra, p);
 	    }		
 	}
 	
@@ -166,6 +181,21 @@ public class DrawPanel extends JPanel {
 		
 	}
 	
+	private void drawExplosion(Graphics graphics, Player player) throws RemoteException{
+//		labelExplosion.getIcon().paintIcon( this, graphics, player.getPosition().getXasInt() - labelExplosion.getWidth() / 2 , 
+//				Consts.WORLD_HEIGHT - player.getPosition().getYasInt() - labelExplosion.getHeight() / 2);
+//        labelExplosion.setSize(new Dimension(600, 400));
+//		GridBagConstraints gbc_labelExplosion = new GridBagConstraints();
+//		gbc_labelExplosion.gridwidth = 0;
+//		gbc_labelExplosion.insets = new Insets(0, 0, 0, 0);
+//		gbc_labelExplosion.fill = GridBagConstraints.BOTH;
+//		gbc_labelExplosion.gridx = 0;
+//		gbc_labelExplosion.gridy = 4;
+////		panel.hide();
+////		contentPane.add(labelExplosion, gbc_labelExplosion);
+//        panel.add(labelExplosion);
+		
+	}
 	/**
 	 * Function to draw the flight path
 	 * @param gra
@@ -174,11 +204,22 @@ public class DrawPanel extends JPanel {
 	
 	private void initStuff() throws Exception{
 
+        setLayout(null);
+
 		myDir = System.getProperty("user.dir");
 		groundTexture = new File("./img/berg.jpg");
 		BufferedImage bi = ImageIO.read(groundTexture);
 		textureWidth = bi.getWidth();
         paint = new TexturePaint(bi, new Rectangle2D.Double(0, 0, textureWidth, textureWidth));
+        
+		Icon icon = new ImageIcon("./img/explosion.gif");
+        this.labelExplosion = new JLabel(icon);
+        labelExplosion.setIconTextGap(0);
+        this.getLabelExplosion().setVisible(false);
+        labelExplosion.setBounds(0, 0, icon.getIconWidth()-40, icon.getIconHeight()-40);
+        add(labelExplosion);
+        
+        
 	} 
     
 	public void setPaintState (PaintState state)
@@ -197,6 +238,52 @@ public class DrawPanel extends JPanel {
 
 	public void IncCounter() {
 		counter += Consts.POINTS_PER_REFRESH;		
+	}
+
+	public JLabel getLabelExplosion() {
+		return labelExplosion;
+	}
+
+	public void setLabelExplosion(JLabel labelExplosion) {
+		this.labelExplosion = labelExplosion;
+	}
+
+	public void showExplosion(Player player) throws RemoteException {
+//		this.labelExplosion.setLocation(30 , 
+//				Consts.WORLD_HEIGHT - 20) ;
+//		repaint();
+		this.labelExplosion.setLocation(player.getPosition().getXasInt() - labelExplosion.getWidth() / 2 , 
+				Consts.WORLD_HEIGHT - player.getPosition().getYasInt() - labelExplosion.getHeight() / 2);
+		repaint();
+		labelExplosion.setVisible(true);
+		labelExplosion.setVisible(true);
+		labelExplosion.setVisible(true);
+		labelExplosion.setVisible(true);
+		labelExplosion.setVisible(true);
+		labelExplosion.setVisible(true);
+		labelExplosion.setVisible(true);
+		labelExplosion.setVisible(true);
+		repaint();
+		repaint();
+		repaint();
+//		labelExplosion.getIcon().paintIcon(c, g, x, y);(obj)als(obj)repaint();
+		labelExplosion.repaint();
+		labelExplosion.repaint();
+		labelExplosion.repaint();
+		labelExplosion.repaint();
+		labelExplosion.repaint();
+		labelExplosion.repaint();
+		labelExplosion.repaint();
+		labelExplosion.repaint();
+//		
+		Timer timerStopExplosion = new Timer();
+		timerStopExplosion.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				labelExplosion.setVisible(false);								
+			}
+		}, 1000);
 	}
 
 }

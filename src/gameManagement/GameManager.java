@@ -15,6 +15,7 @@ import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.GameMap;
+import sharedObjects.gameObjects.interfaces.Hit;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import ui.DrawPanel;
@@ -128,6 +129,7 @@ public class GameManager {
 						timer.cancel();
 						firedFinished();
 					}
+					
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -136,6 +138,7 @@ public class GameManager {
 			}
 			
 		}, 0, Consts.REFRESH_RATE_MS);
+		
 	}
 	
 	/**
@@ -159,11 +162,20 @@ public class GameManager {
 	}
 	
 	public void firedFinished() throws RemoteException{
+		
+		for (Hit hit: currentFlightPath.getHits()){
+			window.getDrawPanel().showExplosion(hit.getTarget());								
+		}
+		
+		// for testing
+		window.getDrawPanel().showExplosion(getMatch().getPlayers().get(0));						
+
 		//Change the values of the bars
 		window.setPlayerDamage(
 				this.match.getPlayers().get(0).getDamage(), 
 				this.match.getPlayers().get(1).getDamage());
 		
+
 		//Change the state of the fire button
 		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));		
 	}
