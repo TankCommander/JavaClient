@@ -8,6 +8,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
@@ -99,16 +101,41 @@ public class GameManager {
 	}
 	
 	
-	private void drawFlightPath (DrawPanel drawPanel) throws RemoteException
+	private void drawFlightPath (final DrawPanel drawPanel) throws RemoteException
 	{
 		//TODO: Benno tob dich hier aus ;)
 		GameManager manager = GameManager.getInstance();
-		FlightPath fp = manager.getCurrentFlightPath();		
+		drawPanel.setCounter(0);
 		
-		TimerFlugbahn tf = new TimerFlugbahn(fp.getTimePoints(),drawPanel);
-		tf.start();
-	    	    
-		//gra.drawString(manager.getCurrentFlightPath().toString(), 300, 200);
+		final FlightPath fp = manager.getCurrentFlightPath();		
+//		TimerFlugbahn tf = new TimerFlugbahn(fp.getTimePoints(),drawPanel);
+//		tf.start();
+	    
+		final Timer timer = new Timer();
+		
+		drawPanel.setPaintState(PaintState.DRAWFLIGHTPATH);
+
+		timer.scheduleAtFixedRate(new TimerTask() {
+			
+			@Override
+			public void run() {
+				try {
+					if (drawPanel.getCounter() < fp.getTimePoints().size()) {
+						drawPanel.repaint();
+						drawPanel.IncCounter();
+					} else {
+						drawPanel.setPaintState(PaintState.DRAWMAP);
+						timer.cancel();
+						firedFinished();
+					}
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+		}, 0, Consts.REFRESH_RATE_MS);
 	}
 	
 	/**
@@ -118,22 +145,27 @@ public class GameManager {
 	public void receivedNewFlightPath (FlightPath path) throws RemoteException
 	{
 		this.currentFlightPath = path;
+		window.setFireButtonState(false);
 		
 		//Change the state in the drawPanel
 		drawFlightPath(window.getDrawPanel());
+		
 		//TODO: Wait until draw is completed
 		Player player1 = this.match.getPlayers().get(0);
 		Player player2 = this.match.getPlayers().get(1);
 		
-		System.out.println(player1.getName() + ":" + player1.getDamage());
-		System.out.println(player2.getName() + ":" + player2.getDamage());
-		
+		System.out.println("Damage player1: " + player1.getName() + ":" + player1.getDamage());
+		System.out.println("Damage player2: " + player2.getName() + ":" + player2.getDamage());		
+	}
+	
+	public void firedFinished() throws RemoteException{
 		//Change the values of the bars
-		window.setPlayerDamage(this.match.getPlayers().get(0).getDamage(), 
-				this.match.getPlayers().get(0).getDamage());
+		window.setPlayerDamage(
+				this.match.getPlayers().get(0).getDamage(), 
+				this.match.getPlayers().get(1).getDamage());
 		
 		//Change the state of the fire button
-		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));
+		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));		
 	}
 	
 	/**

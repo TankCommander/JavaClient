@@ -14,15 +14,15 @@ public class TimerFlugbahn extends Thread{
 	public TimerFlugbahn(ArrayList<TimePoint> _tps, DrawPanel _drawPanel){
 		tps = _tps;
 		drawPanel = _drawPanel;
-		DrawPanel.counter = 0;
+		drawPanel.setCounter(0);
 	}
 	
 	@Override public void run(){
 		while(isInterrupted() == false)	{
-			if(DrawPanel.counter < tps.size() ){
+			if(drawPanel.getCounter() < tps.size() ){
 				drawPanel.setPaintState(PaintState.DRAWFLIGHTPATH);
 	//			drawPanel.repaint(); // wird in setPaintState mit erledigt
-				DrawPanel.counter++;
+				drawPanel.IncCounter();
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {

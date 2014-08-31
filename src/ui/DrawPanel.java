@@ -38,7 +38,7 @@ public class DrawPanel extends JPanel {
     int textureWidth;
     File groundTexture;
     TexturePaint tp;
-    public static int counter;
+    private int counter;
     
     
     public DrawPanel(){
@@ -48,8 +48,7 @@ public class DrawPanel extends JPanel {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-    	
+		}   	
     }
     
 	@Override
@@ -146,7 +145,6 @@ public class DrawPanel extends JPanel {
 		
 		Point p = new PointImpl(m.getX() + Math.cos(angle) * Consts.PLAYER_RADIUS, m.getY() + Math.sin(angle) * Consts.PLAYER_RADIUS);
 		
-	
 		graphics.setColor(player.getColor());
 		graphics.drawLine(m.getXasInt(), Consts.WORLD_HEIGHT - m.getYasInt(), p.getXasInt(), Consts.WORLD_HEIGHT  - p.getYasInt());
 	}
@@ -187,6 +185,18 @@ public class DrawPanel extends JPanel {
 	{
 		this.state = state;
 		this.repaint();
+	}
+
+	public void setCounter(int i) {
+		this.counter = 0;		
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public void IncCounter() {
+		counter += Consts.POINTS_PER_REFRESH;		
 	}
 
 }

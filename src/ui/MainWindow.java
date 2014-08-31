@@ -213,8 +213,15 @@ public class MainWindow extends JFrame {
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 4;
 		contentPane.add(panel, gbc_panel);
+		
+		reset();
 	}
 	
+	private void reset(){
+		btnFire.setEnabled(false);
+		spinnerAngle.setValue(0);
+		spinnerPower.setValue(0);
+	}
 	
 	/**
 	 * Function to set the player names
@@ -229,6 +236,8 @@ public class MainWindow extends JFrame {
 		
 		lblPlayer.setForeground(player1.getColor());
 		lblPlayer_1.setForeground(player2.getColor());
+		
+		setTitle(player1.getName() + " vs. " + player2.getName());
 //		btnFire.setBackground(Color.GREEN);
 	}
 	
@@ -292,6 +301,7 @@ public class MainWindow extends JFrame {
 				boolean wait = manager.startGame(textField.getText(), MainWindow.this);
 				if (!wait)
 				{
+					reset();
 					panel.setPaintState(DrawPanel.PaintState.WAITFORPLAYER);
 					panel.repaint();
 				}
