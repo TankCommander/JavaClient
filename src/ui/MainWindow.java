@@ -193,10 +193,22 @@ public class MainWindow extends JFrame {
 	 * @param player1
 	 * @param player2
 	 */
-	public void setPlayerNames (String player1, String player2)
+	public void setPlayerNames (String player1, String player2, boolean playerIsFirstPlayer)
 	{
 		lblPlayer.setText(player1);
 		lblPlayer_1.setText(player2);
+		
+		if (playerIsFirstPlayer)
+		{
+			lblPlayer.setForeground(Color.GREEN);
+			lblPlayer_1.setForeground(Color.RED);
+		}
+		else
+		{
+			lblPlayer.setForeground(Color.RED);
+			lblPlayer_1.setForeground(Color.GREEN);
+		}
+		btnFire.setBackground(Color.GREEN);
 	}
 	
 	

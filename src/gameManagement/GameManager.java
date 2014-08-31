@@ -16,6 +16,7 @@ import sharedObjects.connectionObjects.interfaces.ServerEntryPoint;
 import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Match;
+import sharedObjects.gameObjects.interfaces.Player;
 import ui.DrawPanel;
 import ui.LocalGameMap;
 import ui.MainWindow;
@@ -73,7 +74,14 @@ public class GameManager {
 	 */
 	public void environmentIsReady () throws RemoteException
 	{
-		window.setPlayerNames(this.match.getPlayers().get(0).getName(), this.match.getPlayers().get(1).getName());
+		boolean playerIsFirstPlayer;
+		
+		if (this.match.getPlayers().get(0).equalsPlayer(this.cInterface.getPlayer()))
+			playerIsFirstPlayer = true;
+		else
+			playerIsFirstPlayer = false;
+		
+		window.setPlayerNames(this.match.getPlayers().get(0).getName(), this.match.getPlayers().get(1).getName(), playerIsFirstPlayer);
 		window.getDrawPanel().setPaintState(PaintState.DRAWMAP);
 		
 		//Enable oder disable the fire button
@@ -104,6 +112,11 @@ public class GameManager {
 		//Change the state in the drawPanel
 		drawFlightPath(window.getDrawPanel());
 		//TODO: Wait until draw is completed
+		Player player1 = this.match.getPlayers().get(0);
+		Player player2 = this.match.getPlayers().get(1);
+		
+		System.out.println(player1.getName() + ":" + player1.getDamage());
+		System.out.println(player2.getName() + ":" + player2.getDamage());
 		
 		//Change the values of the bars
 		window.setPlayerDamage(this.match.getPlayers().get(0).getDamage(), 
