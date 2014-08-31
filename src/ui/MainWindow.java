@@ -6,6 +6,8 @@ import gameManagement.GameManager;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.GridBagLayout;
 
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JProgressBar;
 
+import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.gameObjects.interfaces.Player;
 
 import java.awt.Color;
@@ -36,8 +39,8 @@ public class MainWindow extends JFrame {
 	private JTextField textField;
 	private JLabel lblAngle;
 	private JLabel lblPowerms;
-	private JSpinner spinner;
-	private JSpinner spinner_1;
+	private JSpinner spinnerAngle;
+	private JSpinner spinnerPower;
 	private JButton btnFire;
 	private JLabel lblPlayer;
 	private JProgressBar progressBar;
@@ -104,14 +107,37 @@ public class MainWindow extends JFrame {
 		gbc_lblAngle.gridy = 1;
 		contentPane.add(lblAngle, gbc_lblAngle);
 		
-		spinner = new JSpinner();
+		spinnerAngle = new JSpinner();
+		spinnerAngle.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				GameManager manager = GameManager.getInstance();
+				ClientInterface clientInterface = manager.getcInterface();
+				if (clientInterface != null){					
+					try {
+						Player player = manager.getcInterface().getPlayer();
+						if (player != null){
+							int value = (Integer) ((JSpinner) e.getSource()).getValue();
+							double angle = Calculation.DegreeToRadiant(value);
+							player.setAngle(angle);
+							panel.repaint();
+						}
+					} catch (RemoteException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+		});
+		
 		GridBagConstraints gbc_spinner = new GridBagConstraints();
 		gbc_spinner.gridwidth = 3;
 		gbc_spinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner.gridx = 1;
 		gbc_spinner.gridy = 1;
-		contentPane.add(spinner, gbc_spinner);
+		contentPane.add(spinnerAngle, gbc_spinner);
 		
 		btnFire = new JButton("Fire");
 		btnFire.addActionListener(new BtnFireActionListener());
@@ -131,14 +157,14 @@ public class MainWindow extends JFrame {
 		gbc_lblPowerms.gridy = 2;
 		contentPane.add(lblPowerms, gbc_lblPowerms);
 		
-		spinner_1 = new JSpinner();
+		spinnerPower = new JSpinner();
 		GridBagConstraints gbc_spinner_1 = new GridBagConstraints();
 		gbc_spinner_1.gridwidth = 3;
 		gbc_spinner_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner_1.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner_1.gridx = 1;
 		gbc_spinner_1.gridy = 2;
-		contentPane.add(spinner_1, gbc_spinner_1);
+		contentPane.add(spinnerPower, gbc_spinner_1);
 		
 		lblPlayer = new JLabel("Player 1:");
 		GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
@@ -243,8 +269,8 @@ public class MainWindow extends JFrame {
 	private class BtnFireActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			GameManager manger = GameManager.getInstance();
-			double angle = Calculation.DegreeToRadiant(Double.valueOf(spinner.getValue().toString()));
-			double power = Double.valueOf(spinner_1.getValue().toString());
+			double angle = Calculation.DegreeToRadiant(Double.valueOf(spinnerAngle.getValue().toString()));
+			double power = Double.valueOf(spinnerPower.getValue().toString());
 			
 			try {
 				setFireButtonState(false);
