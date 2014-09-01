@@ -64,6 +64,10 @@ public class GameManager {
 	public boolean startGame (String playerName, MainWindow window) throws RemoteException, NotBoundException 
 	{
 		this.window = window;
+		this.gameEnded = false;
+		this.localPlayerPositions.clear();
+		this.map = null;
+		this.match = null;
 		
 		//Create a player object
 		PlayerImpl player = new PlayerImpl(playerName);
