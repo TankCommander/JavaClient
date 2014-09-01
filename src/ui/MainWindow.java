@@ -217,6 +217,8 @@ public class MainWindow extends JFrame {
 		btnFire.setEnabled(false);
 		spinnerAngle.setValue(0);
 		spinnerPower.setValue(0);
+		progressBar.setValue(0);
+		progressBar_1.setValue(0);
 	}
 	
 	/**
