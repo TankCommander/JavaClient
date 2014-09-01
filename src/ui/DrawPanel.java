@@ -187,7 +187,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
 	    //Player
 	    int d = 2* Consts.PLAYER_RADIUS;
 	    g.setColor(new Color(1.0f, 0.0f, 0.0f, 1.0f));
-	    for(Player p : manager.getMatch().getPlayers()){
+	    for(Player p : manager.localPlayerPositions){
 	    	
 	    	int x = p.getPosition().getXasInt() - Consts.PLAYER_RADIUS;
 	    	int y = Consts.WORLD_HEIGHT - p.getPosition().getYasInt();// - Consts.PLAYER_RADIUS;

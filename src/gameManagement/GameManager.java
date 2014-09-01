@@ -9,6 +9,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,6 +44,8 @@ public class GameManager {
 	private Random random = new Random();
 	private GameManager () {}
 	public boolean winner;
+	public ArrayList<Player> localPlayerPositions = new ArrayList<Player>();
+
 
 	public static synchronized GameManager getInstance () {
 		if (GameManager.instance == null) {
@@ -96,6 +99,20 @@ public class GameManager {
 			}
 			i++;
 		}
+		
+		Player localPlayer;
+		
+		for (Player player : match.getPlayers()){
+			if (!player.equals(this.cInterface.getPlayer())){
+				localPlayer = new PlayerImpl(player.getName());
+				localPlayer.setPosition(player.getPosition());
+				localPlayer.setColor(player.getColor());
+			} else {
+				localPlayer = this.cInterface.getPlayer();
+			}
+			localPlayerPositions.add(localPlayer);
+		}
+		
 		
 		window.setPlayerNames(this.match.getPlayers().get(0), this.match.getPlayers().get(1));
 		window.getDrawPanel().setPaintState(PaintState.DRAWMAP);

@@ -54,6 +54,7 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 		}
 		
 		LocalGameMap localMap = new LocalGameMap(horizonSkeleton, horizonLine); //Add all needed values here
+		
 		manager.setMap(localMap);
 		manager.setMatch(match);
 		manager.environmentIsReady();
