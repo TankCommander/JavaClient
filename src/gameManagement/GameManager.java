@@ -173,7 +173,7 @@ public class GameManager {
 		}
 		
 		// for testing
-		window.getDrawPanel().showExplosion(getMatch().getPlayers().get(0));						
+//		window.getDrawPanel().showExplosion(getMatch().getPlayers().get(0));						
 
 		//Change the values of the bars
 		window.setPlayerDamage(
