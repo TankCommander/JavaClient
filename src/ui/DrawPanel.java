@@ -55,7 +55,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
     private Image explosionImage ;
 	private JLabel labelExplosion;
 	private Player explosionPlayer = null;
-    
+    private boolean paintInit = true;
     
     public DrawPanel(){
     	super();
@@ -119,32 +119,6 @@ public class DrawPanel extends JPanel implements ImageObserver {
 	 */
 	private void paintWaitingMessage (Graphics g)
 	{
-		//Probezeichnen gegen schwarze R�nder
-		g.drawImage(
-				explosionImage, 
-				-200 , 
-				-200, null);
-		//Probezeichnen gegen schwarze R�nder
-		g.drawImage(
-				explosionImage, 
-				-200 , 
-				-200, null);
-		g.drawImage(
-				explosionImage, 
-				-200 , 
-				-200, null);
-		g.drawImage(
-				explosionImage, 
-				-200 , 
-				-200, null);
-		g.drawImage(
-				explosionImage, 
-				-200 , 
-				-200, null);
-		g.drawImage(
-				explosionImage, 
-				-200 , 
-				-200, null);
 		g.setColor(Color.black);
 		g.drawString("Wait for other Player", 300, 200);
 	}
@@ -185,6 +159,14 @@ public class DrawPanel extends JPanel implements ImageObserver {
 		g.fillRect(0, 0, Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);
 	    g.setPaint(paint);
 	    g.fillPolygon(map.getPolygon());
+	    
+	    if (paintInit) {
+	    	g.drawImage(
+				explosionImage, 
+				-200 , 
+				-200, null);
+	    	paintInit = false;
+	    }
 	    
 	    //Player
 	    int d = 2* Consts.PLAYER_RADIUS;
@@ -270,7 +252,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
     
 	private void prepareExplosion(){
 		
-		explosionIcon = new ImageIcon("./img/explosion2.gif");
+		explosionIcon = new ImageIcon("./img/explosion.gif");
 		explosionImage = explosionIcon.getImage();
 		final int CROP_X = 18;
 		final int CROP_Y = 20;
@@ -278,9 +260,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
 		        new CropImageFilter(CROP_X, CROP_Y, explosionImage.getWidth(null) - 2*CROP_X, explosionImage.getHeight(null) - 2*CROP_Y)));
 		 	 
 	}
-	
-	
-	
+		
 	public void setPaintState (PaintState state)
 	{
 		this.state = state;

@@ -32,7 +32,7 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
 	private JButton btnNewButton;
 	private JLabel lblPlayerName;
-	private JTextField textField;
+	private JTextField textFieldPlayerName;
 	private JLabel lblAngle;
 	private JLabel lblPowerms;
 	private JSpinner spinnerAngle;
@@ -44,6 +44,8 @@ public class MainWindow extends JFrame {
 	private JLabel lblVs;
 	private JLabel lblPlayer_1;
 	private DrawPanel panel;
+	private JLabel lblHost;
+	private JTextField textFieldHost;
 
 
 	/**
@@ -53,54 +55,84 @@ public class MainWindow extends JFrame {
 		initGUI();
 	}
 	
+	public String getHostname(){
+		return textFieldHost.getText();
+	}
 	
 	private void initGUI() {
+		
+		int row = 0;
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 616, 557);
+		setBounds(100, 100, 616, 570);
+//		setBounds(100, 100, 616, 557);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 79, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 400, 0};
+		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 400, 0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 2.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		lblPlayerName = new JLabel("Player Name:");
-		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
-		gbc_lblPlayerName.anchor = GridBagConstraints.EAST;
-		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPlayerName.gridx = 0;
-		gbc_lblPlayerName.gridy = 0;
-		contentPane.add(lblPlayerName, gbc_lblPlayerName);
+		lblHost = new JLabel("Server address:");
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = row;
+		contentPane.add(lblHost, gbc);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 3;
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(10);
-		
+		textFieldHost = new JTextField();
+		gbc = new GridBagConstraints();
+		gbc.gridwidth = 3;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = row;
+		contentPane.add(textFieldHost, gbc);
+		textFieldHost.setColumns(10);
+
 		btnNewButton = new JButton("Start Game");
 		btnNewButton.addActionListener(new BtnNewButtonActionListener());
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 0;
+		gbc_btnNewButton.gridy = row;
 		contentPane.add(btnNewButton, gbc_btnNewButton);
+		
+		row++;
+		
+		lblPlayerName = new JLabel("Player Name:");
+		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
+		gbc_lblPlayerName.anchor = GridBagConstraints.EAST;
+		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPlayerName.gridx = 0;
+		gbc_lblPlayerName.gridy = row;
+		contentPane.add(lblPlayerName, gbc_lblPlayerName);
+		
+		textFieldPlayerName = new JTextField();
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 3;
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = row;
+		contentPane.add(textFieldPlayerName, gbc_textField);
+		textFieldPlayerName.setColumns(10);
+		
+		row++;
 		
 		lblAngle = new JLabel("Angle (\u00B0):");
 		GridBagConstraints gbc_lblAngle = new GridBagConstraints();
 		gbc_lblAngle.anchor = GridBagConstraints.EAST;
 		gbc_lblAngle.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAngle.gridx = 0;
-		gbc_lblAngle.gridy = 1;
+		gbc_lblAngle.gridy = row;
 		contentPane.add(lblAngle, gbc_lblAngle);
 		
 		spinnerAngle = new JSpinner();
@@ -132,7 +164,7 @@ public class MainWindow extends JFrame {
 		gbc_spinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner.gridx = 1;
-		gbc_spinner.gridy = 1;
+		gbc_spinner.gridy = row;
 		contentPane.add(spinnerAngle, gbc_spinner);
 		
 		btnFire = new JButton("Fire");
@@ -142,15 +174,17 @@ public class MainWindow extends JFrame {
 		gbc_btnFire.gridheight = 2;
 		gbc_btnFire.insets = new Insets(0, 0, 5, 0);
 		gbc_btnFire.gridx = 4;
-		gbc_btnFire.gridy = 1;
+		gbc_btnFire.gridy = row;
 		contentPane.add(btnFire, gbc_btnFire);
+		
+		row++;
 		
 		lblPowerms = new JLabel("Power (m/s): ");
 		GridBagConstraints gbc_lblPowerms = new GridBagConstraints();
 		gbc_lblPowerms.anchor = GridBagConstraints.EAST;
 		gbc_lblPowerms.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPowerms.gridx = 0;
-		gbc_lblPowerms.gridy = 2;
+		gbc_lblPowerms.gridy = row;
 		contentPane.add(lblPowerms, gbc_lblPowerms);
 		
 		spinnerPower = new JSpinner();
@@ -159,14 +193,16 @@ public class MainWindow extends JFrame {
 		gbc_spinner_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner_1.insets = new Insets(0, 0, 5, 5);
 		gbc_spinner_1.gridx = 1;
-		gbc_spinner_1.gridy = 2;
+		gbc_spinner_1.gridy = row;
 		contentPane.add(spinnerPower, gbc_spinner_1);
+		
+		row++;
 		
 		lblPlayer = new JLabel("Player 1:");
 		GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
 		gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPlayer.gridx = 0;
-		gbc_lblPlayer.gridy = 3;
+		gbc_lblPlayer.gridy = row;
 		contentPane.add(lblPlayer, gbc_lblPlayer);
 		
 		progressBar = new JProgressBar();
@@ -174,14 +210,14 @@ public class MainWindow extends JFrame {
 		gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_progressBar.insets = new Insets(0, 0, 5, 5);
 		gbc_progressBar.gridx = 1;
-		gbc_progressBar.gridy = 3;
+		gbc_progressBar.gridy = row;
 		contentPane.add(progressBar, gbc_progressBar);
 		
 		lblVs = new JLabel("vs");
 		GridBagConstraints gbc_lblVs = new GridBagConstraints();
 		gbc_lblVs.insets = new Insets(0, 0, 5, 5);
 		gbc_lblVs.gridx = 2;
-		gbc_lblVs.gridy = 3;
+		gbc_lblVs.gridy = row;
 		contentPane.add(lblVs, gbc_lblVs);
 		
 		lblPlayer_1 = new JLabel("Player 2:");
@@ -189,7 +225,7 @@ public class MainWindow extends JFrame {
 		gbc_lblPlayer_1.anchor = GridBagConstraints.EAST;
 		gbc_lblPlayer_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPlayer_1.gridx = 3;
-		gbc_lblPlayer_1.gridy = 3;
+		gbc_lblPlayer_1.gridy = row;
 		contentPane.add(lblPlayer_1, gbc_lblPlayer_1);
 		
 		progressBar_1 = new JProgressBar();
@@ -197,8 +233,10 @@ public class MainWindow extends JFrame {
 		gbc_progressBar_1.insets = new Insets(0, 0, 5, 0);
 		gbc_progressBar_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_progressBar_1.gridx = 4;
-		gbc_progressBar_1.gridy = 3;
+		gbc_progressBar_1.gridy = row;
 		contentPane.add(progressBar_1, gbc_progressBar_1);
+		
+		row++;
 		
 		panel = new DrawPanel();
 		panel.setBackground(Color.WHITE);
@@ -207,7 +245,7 @@ public class MainWindow extends JFrame {
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 4;
+		gbc_panel.gridy = row;
 		contentPane.add(panel, gbc_panel);
 		
 		reset();
@@ -296,7 +334,7 @@ public class MainWindow extends JFrame {
 			//Start a new Game
 			GameManager manager = GameManager.getInstance();
 			try {
-				boolean wait = manager.startGame(textField.getText(), MainWindow.this);
+				boolean wait = manager.startGame(textFieldPlayerName.getText(), MainWindow.this);
 				if (!wait)
 				{
 					reset();
