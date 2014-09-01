@@ -1,5 +1,6 @@
 package gameManagement;
 
+import gameManagement.gameObjects.implementations.FlightPathImpl;
 import gameManagement.interfaceImplementations.PlayerImpl;
 
 import java.awt.Color;
@@ -18,6 +19,7 @@ import sharedObjects.gameObjects.interfaces.GameMap;
 import sharedObjects.gameObjects.interfaces.Hit;
 import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
+import sharedObjects.gameObjects.interfaces.TimePoint;
 import ui.DrawPanel;
 import ui.DrawPanel.PaintState;
 import ui.LocalGameMap;
@@ -62,7 +64,7 @@ public class GameManager {
 		PlayerImpl player = new PlayerImpl(playerName);
 		
 		//Register at the Server
-		Registry registry = LocateRegistry.getRegistry();
+		Registry registry = LocateRegistry.getRegistry("10.10.79.106");
 	    ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
 	    ClientInterfaceImplementation c = new ClientInterfaceImplementation(player);
 	    player.setClientInterface(c);
@@ -153,7 +155,12 @@ public class GameManager {
 	 */
 	public void receivedNewFlightPath (FlightPath path) throws RemoteException
 	{
-		this.currentFlightPath = path;
+		currentFlightPath = new FlightPathImpl(path.getOrigin());
+		for(TimePoint timePoint : path.getTimePoints()){
+			currentFlightPath.getTimePoints().add(timePoint);
+		}
+		currentFlightPath.setHits(path.getHits());
+				
 		window.setFireButtonState(false);
 		
 		//Change the state in the drawPanel
@@ -180,7 +187,6 @@ public class GameManager {
 				this.match.getPlayers().get(0).getDamage(), 
 				this.match.getPlayers().get(1).getDamage());
 		
-
 		//Change the state of the fire button
 		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));		
 	}
