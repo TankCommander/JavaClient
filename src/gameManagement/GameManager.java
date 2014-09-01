@@ -212,6 +212,7 @@ public class GameManager {
 		if (this.gameEnded)
 		{
 			window.getDrawPanel().setPaintState(PaintState.GAMEFINISHED);
+			this.window.setFireButtonState(false);
 		}
 	}
 	
