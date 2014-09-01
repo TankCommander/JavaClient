@@ -40,7 +40,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
 	private static final long serialVersionUID = 5482090458424997569L;
 
 
-	public static enum PaintState {NONE, WAITFORPLAYER, DRAWMAP, DRAWFLIGHTPATH}
+	public static enum PaintState {NONE, WAITFORPLAYER, DRAWMAP, DRAWFLIGHTPATH, GAMEFINISHED}
 	private PaintState state = PaintState.NONE;
 	
 	Paint paint;
@@ -49,6 +49,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
     File groundTexture;
     TexturePaint tp;
     
+    public boolean lastShoot;
     private int counter;
     private ImageIcon explosionIcon = null;
     private Image explosionImage ;
@@ -97,11 +98,13 @@ public class DrawPanel extends JPanel implements ImageObserver {
 						g.fillOval(tps.get(counter).getXasInt() - Consts.BULLET_RADIUS, Consts.WORLD_HEIGHT - tps.get(counter).getYasInt() - Consts.BULLET_RADIUS, 2*Consts.BULLET_RADIUS, 2*Consts.BULLET_RADIUS);
 					}
 					
+					if (lastShoot)
+						this.paintWinLostMessage(g);
 					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-	
+				break;
 			default:
 			break;
 		}
@@ -142,6 +145,28 @@ public class DrawPanel extends JPanel implements ImageObserver {
 				-200, null);
 		g.setColor(Color.black);
 		g.drawString("Wait for other Player", 300, 200);
+	}
+	
+	/**
+	 * Function to draw the wait for player Message
+	 * @param g
+	 */
+	private void paintWinLostMessage (Graphics g)
+	{
+		GameManager manager = GameManager.getInstance();
+		
+		
+		if (manager.winner)
+		{
+			g.setColor(Color.GREEN);
+			g.drawString("You Won", 300, 200);
+		}
+		else
+		{
+			g.setColor(Color.RED);
+			g.drawString("You Lost", 300, 200);
+		}
+		
 	}
 	
 	/**

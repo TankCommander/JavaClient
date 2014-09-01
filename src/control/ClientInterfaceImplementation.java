@@ -58,7 +58,18 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 		manager.setMatch(match);
 		manager.environmentIsReady();
 	}
-
+	
+	/**
+	 * Function called when a game is finished
+	 * @throws RemoteException
+	 */
+	public void gameEnded (boolean winner) throws RemoteException
+	{
+		GameManager manager = GameManager.getInstance();
+		manager.gameEnded(winner);
+	}
+	
+	
 	@Override
 	public void connectionLost() throws RemoteException {
 		// TODO Auto-generated method stub

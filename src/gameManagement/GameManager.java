@@ -39,6 +39,7 @@ public class GameManager {
 	private FlightPath currentFlightPath;
 	private Random random = new Random();
 	private GameManager () {}
+	public boolean winner;
 
 	public static synchronized GameManager getInstance () {
 		if (GameManager.instance == null) {
@@ -140,6 +141,12 @@ public class GameManager {
 		
 	}
 	
+	public void gameEnded (boolean winner)
+	{
+		this.winner = winner;
+		window.getDrawPanel().lastShoot = true;
+	}
+	
 	/**
 	 * Function called, when the client received a new flight path
 	 * @throws RemoteException 
@@ -152,7 +159,6 @@ public class GameManager {
 		//Change the state in the drawPanel
 		drawFlightPath(window.getDrawPanel());
 		
-		//TODO: Wait until draw is completed
 		Player player1 = this.match.getPlayers().get(0);
 		Player player2 = this.match.getPlayers().get(1);
 		
