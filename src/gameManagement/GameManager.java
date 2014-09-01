@@ -1,6 +1,7 @@
 package gameManagement;
 
 import gameManagement.gameObjects.implementations.FlightPathImpl;
+import gameManagement.gameObjects.implementations.TimePointImpl;
 import gameManagement.interfaceImplementations.PlayerImpl;
 
 import java.awt.Color;
@@ -64,7 +65,7 @@ public class GameManager {
 		PlayerImpl player = new PlayerImpl(playerName);
 		
 		//Register at the Server
-		Registry registry = LocateRegistry.getRegistry("10.10.79.106");
+		Registry registry = LocateRegistry.getRegistry("10.10.79.177");
 	    ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
 	    ClientInterfaceImplementation c = new ClientInterfaceImplementation(player);
 	    player.setClientInterface(c);
@@ -157,7 +158,8 @@ public class GameManager {
 	{
 		currentFlightPath = new FlightPathImpl(path.getOrigin());
 		for(TimePoint timePoint : path.getTimePoints()){
-			currentFlightPath.getTimePoints().add(timePoint);
+			TimePoint lPoint = new TimePointImpl(timePoint.getX(), timePoint.getY(), timePoint.getT());
+			currentFlightPath.getTimePoints().add(lPoint);
 		}
 		currentFlightPath.setHits(path.getHits());
 				

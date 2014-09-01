@@ -71,7 +71,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
 	protected void paintComponent( Graphics g )
 	{
 		super.paintComponent( g );
-		System.out.println(state);
+//		System.out.println(state);
 		switch (this.state) {
 			case WAITFORPLAYER:
 				this.paintWaitingMessage(g);
