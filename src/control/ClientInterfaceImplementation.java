@@ -73,8 +73,7 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 	
 	@Override
 	public void connectionLost() throws RemoteException {
-		GameManager manager = GameManager.getInstance();
-		manager.gameEnded(true);
+
 	}
 	
 	

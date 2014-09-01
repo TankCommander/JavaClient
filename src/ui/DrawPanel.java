@@ -97,13 +97,15 @@ public class DrawPanel extends JPanel implements ImageObserver {
 						g.setColor(Color.DARK_GRAY);
 						g.fillOval(tps.get(counter).getXasInt() - Consts.BULLET_RADIUS, Consts.WORLD_HEIGHT - tps.get(counter).getYasInt() - Consts.BULLET_RADIUS, 2*Consts.BULLET_RADIUS, 2*Consts.BULLET_RADIUS);
 					}
-					
-					if (lastShoot)
-						this.paintWinLostMessage(g);
-					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				break;
+			case GAMEFINISHED:
+			try {
+				this.drawMap(g);
+			} catch (IOException e) {}
+				paintWinLostMessage(g);
 				break;
 			default:
 			break;
@@ -117,12 +119,12 @@ public class DrawPanel extends JPanel implements ImageObserver {
 	 */
 	private void paintWaitingMessage (Graphics g)
 	{
-		//Probezeichnen gegen schwarze Ränder
+		//Probezeichnen gegen schwarze Rï¿½nder
 		g.drawImage(
 				explosionImage, 
 				-200 , 
 				-200, null);
-		//Probezeichnen gegen schwarze Ränder
+		//Probezeichnen gegen schwarze Rï¿½nder
 		g.drawImage(
 				explosionImage, 
 				-200 , 

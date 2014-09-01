@@ -44,6 +44,7 @@ public class GameManager {
 	private Random random = new Random();
 	private GameManager () {}
 	public boolean winner;
+	public boolean gameEnded;
 	public ArrayList<Player> localPlayerPositions = new ArrayList<Player>();
 
 
@@ -164,7 +165,7 @@ public class GameManager {
 	public void gameEnded (boolean winner)
 	{
 		this.winner = winner;
-		window.getDrawPanel().lastShoot = true;
+		this.gameEnded = true;
 	}
 	
 	/**
@@ -207,7 +208,11 @@ public class GameManager {
 				this.match.getPlayers().get(1).getDamage());
 		
 		//Change the state of the fire button
-		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));		
+		window.setFireButtonState(this.match.getActivePlayer().equalsPlayer(this.cInterface.getPlayer()));
+		if (this.gameEnded)
+		{
+			window.getDrawPanel().setPaintState(PaintState.GAMEFINISHED);
+		}
 	}
 	
 	/**
