@@ -64,7 +64,7 @@ public class GameManager {
 		PlayerImpl player = new PlayerImpl(playerName);
 		
 		//Register at the Server
-		Registry registry = LocateRegistry.getRegistry("10.10.79.106");
+		Registry registry = LocateRegistry.getRegistry();
 	    ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
 	    ClientInterfaceImplementation c = new ClientInterfaceImplementation(player);
 	    player.setClientInterface(c);
