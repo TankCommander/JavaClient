@@ -23,7 +23,6 @@ import ui.DrawPanel.PaintState;
 import ui.LocalGameMap;
 import ui.MainWindow;
 import control.ClientInterfaceImplementation;
-import control.TimerFlugbahn;
 
 /**
  * Class which manages the whole client game

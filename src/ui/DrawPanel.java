@@ -5,17 +5,16 @@ import gameManagement.GameManager;
 import gameManagement.gameObjects.implementations.PointImpl;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.Paint;
 import java.awt.TexturePaint;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.CropImageFilter;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -24,9 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -35,7 +32,9 @@ import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 import sharedObjects.gameObjects.interfaces.TimePoint;
 
-public class DrawPanel extends JPanel {
+
+
+public class DrawPanel extends JPanel implements ImageObserver {
 	//TODO: Benno Hier kannst du dich austoben
 	
 	private static final long serialVersionUID = 5482090458424997569L;
@@ -49,9 +48,12 @@ public class DrawPanel extends JPanel {
     int textureWidth;
     File groundTexture;
     TexturePaint tp;
+    
     private int counter;
-
+    private ImageIcon explosionIcon = null;
+    private Image explosionImage ;
 	private JLabel labelExplosion;
+	private Player explosionPlayer = null;
     
     
     public DrawPanel(){
@@ -95,6 +97,7 @@ public class DrawPanel extends JPanel {
 						g.fillOval(tps.get(counter).getXasInt() - Consts.BULLET_RADIUS, Consts.WORLD_HEIGHT - tps.get(counter).getYasInt() - Consts.BULLET_RADIUS, 2*Consts.BULLET_RADIUS, 2*Consts.BULLET_RADIUS);
 					}
 					
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -111,6 +114,32 @@ public class DrawPanel extends JPanel {
 	 */
 	private void paintWaitingMessage (Graphics g)
 	{
+		//Probezeichnen gegen schwarze Ränder
+		g.drawImage(
+				explosionImage, 
+				-200 , 
+				-200, null);
+		//Probezeichnen gegen schwarze Ränder
+		g.drawImage(
+				explosionImage, 
+				-200 , 
+				-200, null);
+		g.drawImage(
+				explosionImage, 
+				-200 , 
+				-200, null);
+		g.drawImage(
+				explosionImage, 
+				-200 , 
+				-200, null);
+		g.drawImage(
+				explosionImage, 
+				-200 , 
+				-200, null);
+		g.drawImage(
+				explosionImage, 
+				-200 , 
+				-200, null);
 		g.setColor(Color.black);
 		g.drawString("Wait for other Player", 300, 200);
 	}
@@ -150,8 +179,10 @@ public class DrawPanel extends JPanel {
 	    	// Kanonenrohr
 	    	drawBarrel(gra, p);	 
 	    	
-	    	drawExplosion(gra, p);
 	    }		
+
+	    if (explosionPlayer != null)
+    		drawExplosion(gra);
 	}
 	
 	private void drawBarrel(Graphics graphics, Player player) throws IOException{
@@ -177,25 +208,20 @@ public class DrawPanel extends JPanel {
 					);
 			};
 			pb = p;
-		}
-		
+		}		
 	}
 	
-	private void drawExplosion(Graphics graphics, Player player) throws RemoteException{
-//		labelExplosion.getIcon().paintIcon( this, graphics, player.getPosition().getXasInt() - labelExplosion.getWidth() / 2 , 
-//				Consts.WORLD_HEIGHT - player.getPosition().getYasInt() - labelExplosion.getHeight() / 2);
-//        labelExplosion.setSize(new Dimension(600, 400));
-//		GridBagConstraints gbc_labelExplosion = new GridBagConstraints();
-//		gbc_labelExplosion.gridwidth = 0;
-//		gbc_labelExplosion.insets = new Insets(0, 0, 0, 0);
-//		gbc_labelExplosion.fill = GridBagConstraints.BOTH;
-//		gbc_labelExplosion.gridx = 0;
-//		gbc_labelExplosion.gridy = 4;
-////		panel.hide();
-////		contentPane.add(labelExplosion, gbc_labelExplosion);
-//        panel.add(labelExplosion);
+	private void drawExplosion(final Graphics graphics) throws RemoteException{		
 		
+		if (explosionImage != null && explosionPlayer != null){
+
+			graphics.drawImage(
+				explosionImage, 
+				explosionPlayer.getPosition().getXasInt() - explosionImage.getWidth(null) / 2 , 
+				Consts.WORLD_HEIGHT - explosionPlayer.getPosition().getYasInt() - explosionImage.getHeight(null) / 2, null);
+		}
 	}
+	
 	/**
 	 * Function to draw the flight path
 	 * @param gra
@@ -212,16 +238,22 @@ public class DrawPanel extends JPanel {
 		textureWidth = bi.getWidth();
         paint = new TexturePaint(bi, new Rectangle2D.Double(0, 0, textureWidth, textureWidth));
         
-		Icon icon = new ImageIcon("./img/explosion.gif");
-        this.labelExplosion = new JLabel(icon);
-        labelExplosion.setIconTextGap(0);
-        this.getLabelExplosion().setVisible(false);
-        labelExplosion.setBounds(0, 0, icon.getIconWidth()-40, icon.getIconHeight()-40);
-        add(labelExplosion);
-        
-        
+        prepareExplosion();
 	} 
     
+	private void prepareExplosion(){
+		
+		explosionIcon = new ImageIcon("./img/explosion2.gif");
+		explosionImage = explosionIcon.getImage();
+		final int CROP_X = 18;
+		final int CROP_Y = 20;
+		explosionImage = createImage(new FilteredImageSource(explosionImage.getSource(),
+		        new CropImageFilter(CROP_X, CROP_Y, explosionImage.getWidth(null) - 2*CROP_X, explosionImage.getHeight(null) - 2*CROP_Y)));
+		 	 
+	}
+	
+	
+	
 	public void setPaintState (PaintState state)
 	{
 		this.state = state;
@@ -249,41 +281,26 @@ public class DrawPanel extends JPanel {
 	}
 
 	public void showExplosion(Player player) throws RemoteException {
-//		this.labelExplosion.setLocation(30 , 
-//				Consts.WORLD_HEIGHT - 20) ;
-//		repaint();
-		this.labelExplosion.setLocation(player.getPosition().getXasInt() - labelExplosion.getWidth() / 2 , 
-				Consts.WORLD_HEIGHT - player.getPosition().getYasInt() - labelExplosion.getHeight() / 2);
-		repaint();
-		labelExplosion.setVisible(true);
-		labelExplosion.setVisible(true);
-		labelExplosion.setVisible(true);
-		labelExplosion.setVisible(true);
-		labelExplosion.setVisible(true);
-		labelExplosion.setVisible(true);
-		labelExplosion.setVisible(true);
-		labelExplosion.setVisible(true);
-		repaint();
-		repaint();
-		repaint();
-//		labelExplosion.getIcon().paintIcon(c, g, x, y);(obj)als(obj)repaint();
-		labelExplosion.repaint();
-		labelExplosion.repaint();
-		labelExplosion.repaint();
-		labelExplosion.repaint();
-		labelExplosion.repaint();
-		labelExplosion.repaint();
-		labelExplosion.repaint();
-		labelExplosion.repaint();
-//		
-		Timer timerStopExplosion = new Timer();
-		timerStopExplosion.schedule(new TimerTask() {
+		
+		final Timer timer = new Timer();
+		
+		explosionPlayer = player;
+		
+		timer.scheduleAtFixedRate(new TimerTask() {
+			final int MAX_LOOPS = 10;
+			int loopCount = 0;
 			
 			@Override
 			public void run() {
-				labelExplosion.setVisible(false);								
+				if (loopCount < MAX_LOOPS ){
+					repaint();
+					loopCount++;
+				} else {
+					explosionPlayer = null;
+					repaint();
+					timer.cancel();
+				}
 			}
-		}, 1000);
+		}, 0, 100);
 	}
-
 }

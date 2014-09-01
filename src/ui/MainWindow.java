@@ -3,36 +3,28 @@ package ui;
 import gameManagement.Calculation;
 import gameManagement.GameManager;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import java.awt.GridBagLayout;
-
-import javax.swing.JButton;
-
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Image;
-import java.awt.Insets;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
-import javax.swing.JProgressBar;
-
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.gameObjects.interfaces.Player;
-
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 public class MainWindow extends JFrame {
 
