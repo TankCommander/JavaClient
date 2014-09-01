@@ -103,7 +103,7 @@ public class GameManager {
 		Player localPlayer;
 		
 		for (Player player : match.getPlayers()){
-			if (!player.equals(this.cInterface.getPlayer())){
+			if (!player.equalsPlayer(this.cInterface.getPlayer())){
 				localPlayer = new PlayerImpl(player.getName());
 				localPlayer.setPosition(player.getPosition());
 				localPlayer.setColor(player.getColor());
