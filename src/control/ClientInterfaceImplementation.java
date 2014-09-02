@@ -15,6 +15,7 @@ import sharedObjects.gameObjects.interfaces.Match;
 import sharedObjects.gameObjects.interfaces.Player;
 import sharedObjects.gameObjects.interfaces.Point;
 import ui.LocalGameMap;
+import ui.DrawPanel.PaintState;
 
 public class ClientInterfaceImplementation implements ClientInterface, Serializable{
 	
@@ -74,6 +75,8 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 	@Override
 	public void connectionLost(boolean won) throws RemoteException {
 		gameEnded(won);
+		GameManager.getInstance().getWindow().getDrawPanel().setPaintState(PaintState.GAMEFINISHED);
+		GameManager.getInstance().getWindow().setFireButtonState(false);		
 	}
 	
 	

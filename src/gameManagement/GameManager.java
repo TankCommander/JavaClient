@@ -87,7 +87,7 @@ public class GameManager {
 	    player.setClientInterface(c);
 	    this.cInterface = c;
 	    
-	    Timer keepAlive = new Timer();
+	    final Timer keepAlive = new Timer();
 	    keepAlive.scheduleAtFixedRate(new TimerTask() {
 			
 			@Override
@@ -97,6 +97,7 @@ public class GameManager {
 				} catch (RemoteException e) {
 					try {
 						GameManager.getInstance().getcInterface().connectionLost(false);
+						keepAlive.cancel();
 					} catch (RemoteException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -198,6 +199,7 @@ public class GameManager {
 	{
 		this.winner = winner;
 		this.gameEnded = true;
+		window.getDrawPanel().repaint();
 	}
 	
 	/**
@@ -298,6 +300,14 @@ public class GameManager {
 
 	public void setCurrentFlightPath(FlightPath currentFlightPath) {
 		this.currentFlightPath = currentFlightPath;
+	}
+
+	public MainWindow getWindow() {
+		return window;
+	}
+
+	public void setWindow(MainWindow window) {
+		this.window = window;
 	}
 	
 	
