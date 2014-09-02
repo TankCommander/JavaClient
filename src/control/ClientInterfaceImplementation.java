@@ -9,6 +9,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import sharedObjects.connectionObjects.interfaces.ClientInterface;
 import sharedObjects.gameObjects.interfaces.FlightPath;
 import sharedObjects.gameObjects.interfaces.Match;
@@ -74,9 +76,12 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 	
 	@Override
 	public void connectionLost(boolean won) throws RemoteException {
-		gameEnded(won);
-		GameManager.getInstance().getWindow().getDrawPanel().setPaintState(PaintState.GAMEFINISHED);
-		GameManager.getInstance().getWindow().setFireButtonState(false);		
+		/*gameEnded(won);
+		GameManager.getInstance().getWindow().getDrawPanel().setPaintState(PaintState.GAMEFINISHED);*/
+		GameManager.getInstance().getWindow().setFireButtonState(false);
+		JOptionPane.showMessageDialog(GameManager.getInstance().getWindow(), "Connection Lost");
+		
+		
 	}
 	
 	

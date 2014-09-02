@@ -81,7 +81,6 @@ public class GameManager {
 		} else {
 			registry = LocateRegistry.getRegistry();
 		}
-			
 	    final ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
 	    ClientInterfaceImplementation c = new ClientInterfaceImplementation(player);
 	    player.setClientInterface(c);
@@ -104,8 +103,7 @@ public class GameManager {
 					}
 				} 				
 			}
-		}, 0, 2000);
-	    
+		}, 0, 1000);
 	    return server.registerClient(c);
 	    
 	}
