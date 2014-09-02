@@ -63,9 +63,9 @@ public class MainWindow extends JFrame {
 		
 		int row = 0;
 		
-		setResizable(false);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 616, 570);
+		setBounds(100, 100, 616, 590);
 //		setBounds(100, 100, 616, 557);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
