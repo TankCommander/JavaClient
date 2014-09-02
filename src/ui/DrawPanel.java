@@ -294,7 +294,7 @@ public class DrawPanel extends JPanel implements ImageObserver {
 		explosionPlayer = player;
 		
 		timer.scheduleAtFixedRate(new TimerTask() {
-			final int MAX_LOOPS = 10;
+			final int MAX_LOOPS = 6;
 			int loopCount = 0;
 			
 			@Override

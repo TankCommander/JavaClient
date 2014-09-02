@@ -70,7 +70,7 @@ public class GameManager {
 		this.match = null;
 		
 		//Create a player object
-		PlayerImpl player = new PlayerImpl(playerName);
+		final PlayerImpl player = new PlayerImpl(playerName);
 		Registry registry;
 		
 		//Register at the Server
@@ -82,11 +82,31 @@ public class GameManager {
 			registry = LocateRegistry.getRegistry();
 		}
 			
-	    ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
+	    final ServerEntryPoint server = (ServerEntryPoint) registry.lookup( "ServerEntryPoint" );
 	    ClientInterfaceImplementation c = new ClientInterfaceImplementation(player);
 	    player.setClientInterface(c);
 	    this.cInterface = c;
+	    
+	    Timer keepAlive = new Timer();
+	    keepAlive.scheduleAtFixedRate(new TimerTask() {
+			
+			@Override
+			public void run() {
+				try {
+					server.receiveKeepAlive(player);
+				} catch (RemoteException e) {
+					try {
+						GameManager.getInstance().getcInterface().connectionLost(false);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} 				
+			}
+		}, 0, 2000);
+	    
 	    return server.registerClient(c);
+	    
 	}
 	
 	/**

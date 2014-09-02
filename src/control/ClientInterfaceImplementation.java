@@ -72,8 +72,8 @@ public class ClientInterfaceImplementation implements ClientInterface, Serializa
 	
 	
 	@Override
-	public void connectionLost() throws RemoteException {
-
+	public void connectionLost(boolean won) throws RemoteException {
+		gameEnded(won);
 	}
 	
 	
